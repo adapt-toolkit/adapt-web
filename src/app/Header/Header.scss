@@ -46,16 +46,13 @@
       font-weight: 600;
       margin: 0 10px;
 
-      &:last-child{
-        color: #2F87ED;
-      }
-
       &:hover{
         text-decoration: underline;
       }
     }
 
     .active-link{
+      color: #2F87ED;
     }
   }
 }
