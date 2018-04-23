@@ -7,14 +7,14 @@ export default class Main extends Component {
   }
 
   componentDidMount() {
-    superagent
-      .get('/api/get-todos')
-      .end((err, res) => {
-        console.log('ERROR');
-        console.log(err);
-        console.log('RESPONSE');
-        console.log(res);
-      })
+    // superagent
+    //   .get('/api/get-todos')
+    //   .end((err, res) => {
+    //     console.log('ERROR');
+    //     console.log(err);
+    //     console.log('RESPONSE');
+    //     console.log(res);
+    //   })
   }
 
   render() {
@@ -25,7 +25,7 @@ export default class Main extends Component {
         <img src={require("./img/home-bg.jpg")}></img>
         <div className={styles.layout}>
           <h1>Build and launch your own decentralized network</h1>
-          <h2>not constrained by some platform's one-size-fits-all design decisions</h2>
+          <h2>not constrained by some platform's <span>one-size-fits-all</span> design decisions</h2>
           <p>in an interoperable<br/>ecosystem</p>
         </div>
       </div>

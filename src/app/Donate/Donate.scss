@@ -12,8 +12,8 @@
   text-align: center;
   background-color: #4A90E2;
   border-radius: 5px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-  border: 1px solid #4085d9;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  border: 1px solid #4591de;
   box-sizing: border-box;
   padding: 9px 0 10px;
   cursor: pointer;
@@ -80,7 +80,9 @@
   height: 100%;
   left: 0;
   top: 0;
+  box-sizing: border-box;
   background-color: rgba(0, 0, 0, 0.76);
+  z-index: 778;
 
   .popup{
     position: relative;
@@ -102,36 +104,48 @@
         font-size: 14px;
       }
 
-      input{
-        box-sizing: border-box;
-        width: 100%;
-        height: 38px;
-        font-size: 14px;
-        box-shadow: none;
-        border: 1px solid #CDCDCD;
-        outline: none;
-        border-radius: 4px;
-        padding: 14px 20px;
-        margin: 24px 0;
-        transition: all 0.3s ease-in-out;
-
-        &:focus{
-          font-size: 16px;
-          box-shadow: none;
-          outline: none;
-          border: 1px solid #4A90E2;
+      form{
+        position: relative;
+        
+        .submit-error{
+          position: absolute;
+          top: 5px;
+          left: 0;
+          font-size: 12px;
+          color: red;
         }
-      }
 
-      .send-btn{
-        margin: 0 auto;
-        width: 140px;
-        text-transform: uppercase;
-        outline: none;
-
-        &:focus,
-        &:active{
+        input{
+          box-sizing: border-box;
+          width: 100%;
+          height: 38px;
+          font-size: 14px;
+          box-shadow: none;
+          border: 1px solid #CDCDCD;
           outline: none;
+          border-radius: 4px;
+          padding: 14px 20px;
+          margin: 24px 0;
+          transition: all 0.3s ease-in-out;
+
+          &:focus{
+            font-size: 16px;
+            box-shadow: none;
+            outline: none;
+            border: 1px solid #4A90E2;
+          }
+        }
+
+        .send-btn{
+          margin: 0 auto;
+          width: 140px;
+          text-transform: uppercase;
+          outline: none;
+
+          &:focus,
+          &:active{
+            outline: none;
+          }
         }
       }
     }
@@ -182,6 +196,38 @@
         &:after{
           background-color: #9D9D9D;
         }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px){
+  .intro{
+    padding: 100px 30px 0;
+  }
+
+  .collection{
+    margin-top: 40px;
+
+    .item{
+      margin-bottom: 24px;
+
+      .title,
+      .count-wrap{
+        margin: 8px 0;
+      }
+    }
+  }
+
+  .popup-wrap{
+    padding: 20px;
+
+    .popup{
+      display: block;
+      padding: 40px 20px;
+
+      .spacer{
+        margin-top: 24px;
       }
     }
   }

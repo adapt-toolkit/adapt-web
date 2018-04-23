@@ -14,7 +14,8 @@ export default class Donate extends Component {
       currItemId: "",
       currItemImage: "",
       isEmailSendSuccess: false,
-      email: ''
+      email: '',
+      submitError: ""
     };
   }
 
@@ -41,6 +42,11 @@ export default class Donate extends Component {
   openPopup = (ev, image, id) => {
     ev.preventDefault();
 
+    const scrollBarWidth = window.innerWidth - document.body.clientWidth;
+
+    document.body.style.overflowY = 'hidden';
+    document.body.style.marginRight = `${scrollBarWidth}px`;
+
     this.setState({
       isPopupActive: true,
       currItemId: id,
@@ -51,12 +57,16 @@ export default class Donate extends Component {
   closePopup = (ev) => {
     ev.preventDefault();
 
+    document.body.style.overflowY = 'scroll';
+    document.body.style.marginRight = '0';
+
     this.setState({
       isPopupActive: false,
       currItemId: "",
       currItemImage: "",
       email: "",
-      isEmailSendSuccess: false
+      isEmailSendSuccess: false,
+      submitError: ""
     });
   }  
 
@@ -71,19 +81,27 @@ export default class Donate extends Component {
       .then(res => {
         if ( res.statusCode === 200 ) {
           this.setState({
-            isEmailSendSuccess: true
+            isEmailSendSuccess: true,
+            submitError: ""
           });
         } else {
-          this.setState({
-            isEmailSendSuccess: false
-          });
+          if ( res.statusCode === 422 ) {
+            this.setState({
+              submitError: "This email address is already in use"
+            });
+          } else {
+            this.setState({
+              submitError: "Unknown error"
+            });
+          };
         }
       })
   }
 
   handleEmailInput = ev => {
     this.setState({
-        email: ev.target.value
+        email: ev.target.value,
+        submitError: ""
     });
   }
 
@@ -137,7 +155,8 @@ export default class Donate extends Component {
     const {
       isPopupActive,
       isEmailSendSuccess,
-      currItemImage
+      currItemImage,
+      submitError
     } = this.state;
 
     return (
@@ -166,6 +185,12 @@ export default class Donate extends Component {
                       Please enter your email and we will send you further instructions
                     </div>
                     <form onSubmit={ev => this.handleSubmit(ev)}>
+                      { submitError
+                        ? <div className={styles.submitError}>
+                            {submitError}
+                          </div>
+                        : ""
+                      }
                       <input
                           placeholder="Enter your email"
                           required
