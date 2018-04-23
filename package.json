@@ -4,12 +4,28 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "better-npm-run start-dev",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "betterScripts": {
+    "start-dev": {
+      "command": "node server.js",
+      "env": {
+        "NODE_ENV": "development",
+        "PROTOCOL": "http",
+        "HOST": "localhost",
+        "PORT": 3000,
+        "SMTP": "smtp.gmail.com",
+        "SMTP_PORT": 465,
+        "SMTP_LOGIN": "",
+        "SMTP_PASSWORD": ""
+      }
+    }
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "better-npm-run": "^0.1.0",
     "classnames": "^2.2.5",
     "ejs": "^2.5.8",
     "express": "^4.16.3",

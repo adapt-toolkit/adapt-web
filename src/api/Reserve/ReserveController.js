@@ -5,12 +5,12 @@ const Image = require('../Image/ImageModel');
 
 const sendMail = (id, email) => {
     let transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
+        host: process.env.SMTP,
+        port: process.env.SMTP_PORT,
         secure: true,
         auth: {
-            user: '',
-            pass: ''
+            user: process.env.SMTP_LOGIN,
+            pass: process.env.SMTP_PASSWORD
         }
     });
 
@@ -18,7 +18,8 @@ const sendMail = (id, email) => {
         from: '"ADAPT Support" <adapt@support.com>',
         to: email,
         subject: 'Confirm image test',
-        html: '<b>Hello, click on the link to confirm your email address </b> <a href="http://localhost:3000/confirm/' + id + '">Link</a>'
+        html: '<b>Hello, click on the link to confirm your email address </b>' +
+        '<a href="' + process.env.PROTOCOL + '://' + process.env.HOST + ':' + process.env.PORT +'/confirm/' + id + '">Link</a>'
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
