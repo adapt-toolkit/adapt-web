@@ -4,9 +4,6 @@ module.exports = {
     addImage: (req, res) => {
         const image = req.body;
 
-        console.log('ADD IMAGE!');
-        console.log(image);
-
         Image.create({
             id: image.name,
             description: image.description,
@@ -20,9 +17,6 @@ module.exports = {
             }
 
             if ( createdImage ) {
-                console.log('CREATED IMAGE!');
-                console.log(createdImage);
-
                 res.status(200).send(createdImage);
             }
         });
@@ -44,9 +38,6 @@ module.exports = {
                 }
 
                 if ( images ) {
-                    console.log('IMAGES!!');
-                    console.log(images);
-
                     for ( let i = 0; i < images.length; i++ ) {
                         if ( images[i].reserves ) {
                             images[i].currentReserves = images[i].reserves.length;
