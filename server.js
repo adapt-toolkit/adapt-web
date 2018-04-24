@@ -21,7 +21,7 @@ app.use(webpackHotMiddleware(compiler));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
-app.use('/', express.static(process.cwd() + '/'));
+app.use('/', express.static(process.cwd() + '/static/'));
 app.set('view engine', 'ejs');
 
 mongoose.connect('mongodb://localhost:27017/adapt');
@@ -32,16 +32,16 @@ db.once('open', function() {
     console.log('Successfully connected to MongoDB');
 });
 
-app.post('/api/add-image', ImageController.addImage);
+// app.post('/api/add-image', ImageController.addImage); // Insecure
+// app.get('/api/all-reserves', ReserveController.showAllReserves);
 app.get('/api/show-images', ImageController.showImages);
 app.post('/api/create-reserve', ReserveController.addReserve);
 app.post('/api/confirm-reserve', ReserveController.confirmReserve);
-app.get('/api/all-reserves', ReserveController.showAllReserves);
 
 app.get('/*', (req, res) => {
     res.render('index');
 });
 
 app.listen(process.env.PORT, function () {
-    console.log('Example app listening on port 3000!')
+    console.log('App listening on port '+process.env.PORT)
 });
