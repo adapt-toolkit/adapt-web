@@ -46,7 +46,7 @@ class Header extends Component {
           { [styles.navMenuMobileActive]: dropdownMenuActive }
         )}>
           <NavLink exact to="/" activeClassName={styles.activeLink} style={{animationDelay: "0.3s"}}>Home</NavLink>
-          <a target="_blank" href="/adapt_white_paper.pdf" style={{animationDelay: "0.4s"}}>White&nbsp;Paper</a>
+          <a target="_blank" href="/adapt.pdf" style={{animationDelay: "0.4s"}}>White&nbsp;Paper</a>
           <NavLink to="/team" activeClassName={styles.activeLink} style={{animationDelay: "0.5s"}}>Team</NavLink>
           <NavLink to="/partners" activeClassName={styles.activeLink} style={{animationDelay: "0.6s"}}>Partners</NavLink>
           <NavLink to="/donate" activeClassName={styles.activeLink} style={{animationDelay: "0.7s"}}>Donate</NavLink>
