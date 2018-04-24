@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import classNames from 'classnames';
 import superagent from 'superagent';
 
-export default class Donate extends Component {
+export default class Contribute extends Component {
   constructor(props) {
     super(props);
 
-    this.styles = require('./Donate.scss');
+    this.styles = require('./Contribute.scss');
 
     this.state = {
       images: [],
@@ -115,21 +115,10 @@ export default class Donate extends Component {
         <img src={`/images/${currElem.id}.png`} className={styles.image}/>
         <div className={styles.title}>{currElem.description}</div>
         <div className={styles.countWrap}>
-          {
-            !currElem.currentReserves
-              ? <div className={styles.count}>
-                  {
-                    currElem.amount !== 1
-                      ? <span>{currElem.amount} copies left</span>
-                      : <span>single copy left</span>
-                  }
-                </div>
-              : currElem.currentReserves === currElem.amount
-                ? <div className={styles.count}>No copies left</div>
-                : <div className={styles.count}>
-                    {currElem.amount - currElem.currentReserves} of {currElem.amount} copies left
-                  </div>
-          }
+          <div className={styles.count}>
+            <b>{currElem.amount - currElem.currentReserves}</b> of <b>{currElem.amount}</b> copies available<br/>
+            <b>0</b> acquired / <b>{currElem.currentReserves}</b> reserved
+          </div>
         </div>
         <div className={styles.priceWrap}>
           {
@@ -161,10 +150,15 @@ export default class Donate extends Component {
 
     return (
       <div>
-        <p className={styles.intro}>
-          Because ADAPT is attempting to give developers the most freedom possible,<br/>
-          it does not and will not have a token of its own. We are funding initial stages of development with donations. Donors may choose to get a piece of unique digital art depicting figures from the crypto space.
-        </p>
+        <div className={styles.intro}>
+          <p>
+            Because <b>ADAPT</b> is designed to give developers the most freedom possible, it does not have a token of its own. Instead, we are funding initial stages of development with donations.<br/><br/>
+            Contributors may choose to get an Ethereum non-fungible asset — <b>unique digital art</b> — as a token of community appreciation for their contribution.
+          </p>
+          <p>
+            <i>While we are getting ready the payments and non-fungible asset infrastructure, please feel free to reserve one of these images for yourself by clicking “Reserve” and entering your email.</i> If you reserve, you have to make your donation within 3 days of the beginning of the donation period, otherwise the image will be released to another supporter.
+          </p>
+        </div>
         {/* <div className={classNames(styles.button, styles.myArtBtn)}>My Art</div> */}
         <div className={styles.collection}>
           { this.getItems() }

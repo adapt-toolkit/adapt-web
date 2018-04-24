@@ -1,9 +1,15 @@
 .intro{
-  max-width: 440px;
+  max-width: 600px;
   font-size: 12px;
   text-align: center;
   padding-top: 140px;
   margin: auto;
+
+  p{
+    b{
+      font-weight: 700;
+    }
+  }
 }
 
 .button{
@@ -57,7 +63,9 @@
       margin: 15px 0;
   
       .count{
-        font-weight: 700;
+        b{
+          font-weight: 700;
+        }
       }
     }
 

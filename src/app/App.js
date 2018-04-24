@@ -7,7 +7,7 @@ import Header from './Header/Header';
 import Main from './Main/Main';
 import Team from './Team/Team';
 import Partners from './Partners/Partners';
-import Donate from './Donate/Donate';
+import Contribute from './Contribute/Contribute';
 import Confirm from './Confirm/Confirm';
 
 class App extends Component {
@@ -26,7 +26,7 @@ class App extends Component {
             <Route exact path="/" component={Main}/>
             <Route exact path="/team" component={Team}/>
             <Route exact path="/partners" component={Partners}/>
-            <Route exact path="/donate" component={Donate}/>
+            <Route exact path="/contribute" component={Contribute}/>
             <Route exact path="/confirm/:id" component={Confirm}/>
           </Switch>
         </div>

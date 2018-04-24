@@ -49,7 +49,7 @@ class Header extends Component {
           <a target="_blank" href="/adapt.pdf" style={{animationDelay: "0.4s"}}>White&nbsp;Paper</a>
           <NavLink to="/team" activeClassName={styles.activeLink} style={{animationDelay: "0.5s"}}>Team</NavLink>
           <NavLink to="/partners" activeClassName={styles.activeLink} style={{animationDelay: "0.6s"}}>Partners</NavLink>
-          <NavLink to="/donate" activeClassName={styles.activeLink} style={{animationDelay: "0.7s"}}>Donate</NavLink>
+          <NavLink to="/contribute" activeClassName={styles.activeLink} style={{animationDelay: "0.7s"}}>Contribute</NavLink>
         </div>
         <div
           className={classNames(
