@@ -282,15 +282,16 @@ class Contribute extends Component {
       categoryDescription
     } = this.state;
 
+    // <p>
+    //   <i>While we are getting ready the payments and non-fungible asset infrastructure, please feel free to reserve one of these images for yourself by clicking “Reserve” and entering your email.</i> If you reserve, you have to make your donation within 3 days of the beginning of the donation period, otherwise the image will be released to another supporter.
+    // </p>
+
     return (
       <div>
         <div className={styles.intro}>
           <p>
             Because <b>ADAPT</b> is designed to give developers the most freedom possible, it does not have a token of its own. Instead, we are funding initial stages of development with donations.<br/><br/>
             Contributors may choose to get an Ethereum non-fungible asset — <b>unique digital art</b> — as a token of community appreciation for their contribution.
-          </p>
-          <p>
-            <i>While we are getting ready the payments and non-fungible asset infrastructure, please feel free to reserve one of these images for yourself by clicking “Reserve” and entering your email.</i> If you reserve, you have to make your donation within 3 days of the beginning of the donation period, otherwise the image will be released to another supporter.
           </p>
         </div>
         <div className={styles.categories}>
