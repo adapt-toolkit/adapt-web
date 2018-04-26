@@ -74,6 +74,11 @@
   .get-images-error{
     text-align: center;
     font-size: 22px;
+    font-weight: 600;
+    span {
+      font-weight: 400;
+      font-size: 12px;
+    }
   }
 
   .item{

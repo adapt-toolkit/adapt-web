@@ -268,7 +268,7 @@ class Contribute extends Component {
                   </div>
                 </div>
               ))
-            : <div className={styles.getImagesError}>Not found any images :(</div>
+            : <div className={styles.getImagesError}><span>Contribution collectibles</span><br/>Coming soon</div>
   }
 
   render() {
