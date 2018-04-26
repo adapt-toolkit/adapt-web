@@ -13,7 +13,7 @@ export default class Team extends Component {
         <div className={styles.team}>
           <a target="_blank" href="https://twitter.com/coinfund_al" className={styles.member}>
             <img src={require("./img/bulkin.png")}/>
-            <div className={styles.name}>Alexandr Bulkin</div>
+            <div className={styles.name}>Aleksandr Bulkin</div>
             <div className={styles.position}>Chief Alchemist</div>
           </a>
           <div className={styles.member}>
