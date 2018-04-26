@@ -6,6 +6,10 @@ const ImageSchema = mongoose.Schema({
     description: String,
     eth: Number,
     amount: Number,
+    width: Number,
+    height: Number,
+    ext: String,
+    category: String,
     reserves: [{type: mongoose.Schema.Types.ObjectId, ref: 'Reserve'}]
 })
 

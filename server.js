@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 
 const ImageController = require('./src/api/Image/ImageController');
 const ReserveController = require('./src/api/Reserve/ReserveController');
+const CategoryController = require('./src/api/Category/CategoryController');
 
 const config = require('./webpack.config.js');
 const compiler = webpack(config);
@@ -33,8 +34,11 @@ db.once('open', function() {
 });
 
 // app.post('/api/add-image', ImageController.addImage); // Insecure
+// app.post('/api/add-category', CategoryController.addCategory);
+
 // app.get('/api/all-reserves', ReserveController.showAllReserves);
-app.get('/api/show-images', ImageController.showImages);
+app.post('/api/show-images', ImageController.showImages);
+app.get('/api/show-categories', CategoryController.showCategories);
 app.post('/api/create-reserve', ReserveController.addReserve);
 app.post('/api/confirm-reserve', ReserveController.confirmReserve);
 

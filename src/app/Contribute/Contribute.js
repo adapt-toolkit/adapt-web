@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import classNames from 'classnames';
+import { withRouter } from 'react-router'
+import { NavLink } from 'react-router-dom';
 import superagent from 'superagent';
 
-export default class Contribute extends Component {
+class Contribute extends Component {
   constructor(props) {
     super(props);
 
@@ -15,19 +17,120 @@ export default class Contribute extends Component {
       currItemImage: "",
       isEmailSendSuccess: false,
       email: '',
-      submitError: ""
+      submitError: "",
+      categoriesArr: [],
+      categoryDescription: "",
+      getImagesError: false
     };
   }
 
   componentDidMount() {
-    const updateImages = (arr) => {
-      this.setState({
-        images: arr
+    const updateImages = this.updateImages;
+
+    const saveData = (arr) => {
+      let currCategoryDescription = "";
+      let matchTitleWithAdress = false;
+
+      const paramsId = this.props.match.params.id;
+
+      arr.forEach(currElem => {
+        if (paramsId) {
+          if (currElem.category_name === paramsId) {
+            matchTitleWithAdress = true;
+
+            this.setState({
+              categoriesArr: arr,
+              categoryDescription: currElem.description
+            }, () => {
+              this.getImagesWithParams(paramsId);
+            });
+          };
+        } else {
+          if (currElem.index === 0) {
+            matchTitleWithAdress = true;
+
+            this.setState({
+              categoriesArr: arr,
+              categoryDescription: currElem.description
+            }, () => {
+              this.props.history.push(`/contribute/${currElem.category_name}`);
+            });
+          };
+        };
       });
+
+      if(!matchTitleWithAdress) {
+        this.setState({
+          categoriesArr: arr,
+          getImagesError: true
+        });
+      };
     };
 
     superagent
-      .get('/api/show-images')
+      .get('/api/show-categories')
+      .then(function(res) {
+        if ( res.statusCode === 200 ) {
+          saveData(res.body);
+        };
+        // res.body, res.headers, res.status
+        })
+      .catch(function(err) {
+        // err.message, err.response
+      });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.location.pathname !== this.props.location.pathname) {
+      let nextCategoryDescription = "";
+      let mainCategoryName = "";
+
+      const nextParamsId = nextProps.match.params.id;
+
+      if (this.state.categoriesArr.length) {
+        this.state.categoriesArr.forEach(currElem => {
+          if (nextParamsId) {
+            if (currElem.category_name === nextParamsId) {
+              nextCategoryDescription = currElem.description;
+            };
+          } else {
+            if (currElem.index === 0) {
+              mainCategoryName = currElem.category_name;
+              nextCategoryDescription = currElem.description;
+            };
+          };
+        });
+      };
+
+      if (!nextParamsId) {        
+        this.setState({
+          getImagesError: false
+        }, () => {
+          this.props.history.push(`/contribute/${mainCategoryName}`);
+        });
+      } else {
+        this.setState({
+          categoryDescription: nextCategoryDescription,
+          getImagesError: false
+        }, () => {
+          this.getImagesWithParams(nextParamsId);
+        });
+      };
+    };
+  }
+
+  updateImages = (arr) => {
+    this.setState({
+      images: arr
+    });
+  }
+
+  getImagesWithParams = (params) => {
+    const updateImages = this.updateImages;
+
+    superagent
+      .post('/api/show-images')
+      .send({ category_name: params })
       .then(function(res) {
         if ( res.statusCode === 200 ) {
           updateImages(res.body);
@@ -39,7 +142,7 @@ export default class Contribute extends Component {
       });
   }
 
-  openPopup = (ev, image, id) => {
+  openPopup = (ev, image, id, ext) => {
     ev.preventDefault();
 
     const scrollBarWidth = window.innerWidth - document.body.clientWidth;
@@ -50,7 +153,7 @@ export default class Contribute extends Component {
     this.setState({
       isPopupActive: true,
       currItemId: id,
-      currItemImage: image
+      currItemImage: image + "." + ext
     });
   }
 
@@ -107,36 +210,65 @@ export default class Contribute extends Component {
 
   getItems = () => {
     const styles = this.styles;
+    const { images, getImagesError } = this.state;
 
-    const { images } = this.state;
+    let maxWidth = 24;
 
-    return images.map((currElem, index) => (
-      <div key={index} className={styles.item}>
-        <img src={`/images/${currElem.id}.png`} className={styles.image}/>
-        <div className={styles.title}>{currElem.description}</div>
-        <div className={styles.countWrap}>
-          <div className={styles.count}>
-            <b>{currElem.amount - currElem.currentReserves}</b> of <b>{currElem.amount}</b> copies available<br/>
-            <b>0</b> acquired / <b>{currElem.currentReserves}</b> reserved
-          </div>
-        </div>
-        <div className={styles.priceWrap}>
-          {
-            currElem.currentReserves !== currElem.amount
-              ? <div className={styles.price}>Donate <span>{currElem.eth}&nbsp;ETH</span> or more to get one.</div>
-              : <div className={styles.price}>Was available for donation <span>{currElem.eth}&nbsp;ETH</span> or more.</div>
-          }
-        </div>
-        {
-          currElem.currentReserves !== currElem.amount
-            ? <div
-                className={classNames(styles.button, styles.purchaseBtn)}
-                onClick={ev => this.openPopup(ev, currElem.id, currElem["_id"])}
-              >Reserve</div>
-            : ""
-        }
-      </div>
-    ));
+    if (!getImagesError) {
+      images.forEach(currElem => {
+        if (currElem.width > maxWidth) {
+          maxWidth = currElem.width;
+        };
+      });
+    };
+
+    const getNewWidth = (prevWidth) => {
+      const nextWidth = (240 * ((prevWidth * 100) / maxWidth)) / 100;
+
+      if (nextWidth < 24) {
+        return 24;
+      } else {
+        return nextWidth;
+      };
+    }
+
+    return !getImagesError
+            ? images.map((currElem, index) => (
+                <div key={index} className={styles.item}>
+                  <div className={styles.imageWrap}>
+                    <img
+                      src={`/images/${currElem.id}.${currElem.ext}`} className={styles.image}
+                      style={{ width: `${ getNewWidth(currElem.width) }px` }}
+                    />
+                    <div className={styles.imageSize}>{currElem.width} x {currElem.height} px</div>
+                  </div>
+                  <div>
+                    <div className={styles.title}>{currElem.description}</div>
+                    <div className={styles.countWrap}>
+                      <div className={styles.count}>
+                        <b>{currElem.amount - (currElem.currentReserves || 0)}</b> of <b>{currElem.amount}</b> copies available<br/>
+                        <b>0</b> acquired / <b>{currElem.currentReserves || 0}</b> reserved
+                      </div>
+                    </div>
+                    <div className={styles.priceWrap}>
+                      {
+                        currElem.currentReserves !== currElem.amount
+                          ? <div className={styles.price}>Donate <span>{currElem.eth}&nbsp;ETH</span> or more to get one.</div>
+                          : <div className={styles.price}>Was available for donation <span>{currElem.eth}&nbsp;ETH</span> or more.</div>
+                      }
+                    </div>
+                    {
+                      currElem.currentReserves !== currElem.amount
+                        ? <div
+                            className={classNames(styles.button, styles.purchaseBtn)}
+                            onClick={ev => this.openPopup(ev, currElem.id, currElem["_id"], currElem.ext)}
+                          >Reserve</div>
+                        : ""
+                    }
+                  </div>
+                </div>
+              ))
+            : <div className={styles.getImagesError}>Not found any images :(</div>
   }
 
   render() {
@@ -145,7 +277,9 @@ export default class Contribute extends Component {
       isPopupActive,
       isEmailSendSuccess,
       currItemImage,
-      submitError
+      submitError,
+      categoriesArr,
+      categoryDescription
     } = this.state;
 
     return (
@@ -159,6 +293,16 @@ export default class Contribute extends Component {
             <i>While we are getting ready the payments and non-fungible asset infrastructure, please feel free to reserve one of these images for yourself by clicking “Reserve” and entering your email.</i> If you reserve, you have to make your donation within 3 days of the beginning of the donation period, otherwise the image will be released to another supporter.
           </p>
         </div>
+        <div className={styles.categories}>
+          {
+            categoriesArr.map((currElem, index) => (
+              <NavLink to={`/contribute/${currElem.category_name}`} key={index} activeClassName={styles.activeLink}>{currElem.title}</NavLink>
+            ))
+          }
+        </div>
+        <div className={styles.description}>
+          { categoryDescription }
+        </div>
         {/* <div className={classNames(styles.button, styles.myArtBtn)}>My Art</div> */}
         <div className={styles.collection}>
           { this.getItems() }
@@ -169,7 +313,7 @@ export default class Contribute extends Component {
             <div className={styles.popup}>
               { !isEmailSendSuccess &&
                 <div>
-                  <img src={`/images/${currItemImage}.png`} className={styles.image}/>
+                  <img src={`/images/${currItemImage}`} className={styles.image}/>
                 </div>
               }
 
@@ -205,3 +349,7 @@ export default class Contribute extends Component {
     )
   }
 }
+
+Contribute = withRouter(Contribute);
+
+export default Contribute;

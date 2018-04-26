@@ -24,7 +24,7 @@ module.exports = {
 
     showImages: (req, res) => {
         Image
-            .find({})
+            .find({ category: req.body.category_name })
             .populate({
                 path: 'reserves',
                 match: {confirmed: true}

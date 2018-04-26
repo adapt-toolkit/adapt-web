@@ -2,7 +2,7 @@
   max-width: 600px;
   font-size: 12px;
   text-align: center;
-  padding-top: 140px;
+  padding: 130px 0 40px;
   margin: auto;
 
   p{
@@ -10,6 +10,34 @@
       font-weight: 700;
     }
   }
+}
+
+.categories{
+  display: flex;
+  justify-content: center;
+  max-width: 600px;
+  margin: 0 auto;
+
+  a{
+    margin: 0 20px;
+    color: #000;
+
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+
+  .active-link{
+    color: #2F87ED;
+  }
+}
+
+.description{
+  max-width: 600px;
+  text-align: center;
+  font-size: 12px;
+  padding: 30px 30px 0;
+  margin: 0 auto;
 }
 
 .button{
@@ -40,23 +68,37 @@
 
 .collection{
   max-width: 1088px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
   font-size: 11px;
   margin: 60px auto 40px;
 
-  .item{
-    width: 240px;
-    margin: 16px;
+  .get-images-error{
+    text-align: center;
+    font-size: 22px;
+  }
 
-    .image{
-      width: 100%;
-      background-color: #EAEAEA;
+  .item{
+    display: flex;
+    max-width: 640px;
+    margin: 0 auto 50px;
+
+    .image-wrap{
+      min-width: 240px;
+      padding-right: 30px;
+      text-align: right;
+
+      .image{
+        max-width: 240px;
+        background-color: #EAEAEA;
+      }
+
+      .image-size{
+        font-size: 10px;
+        font-weight: 600;
+      }
     }
 
     .title{
-      margin: 15px 0;
+      margin: 0 0 15px;
     }
 
     .count-wrap{
@@ -210,15 +252,42 @@
 }
 
 @media only screen and (max-width: 768px){
+  .categories{
+    justify-content: space-between;
+    white-space: nowrap;
+    word-break: none;
+    padding: 30px 30px 0px;
+
+    a{
+      margin: 0 4px;
+
+      &:hover{
+        text-decoration: none;
+      }
+    }
+  }
+
   .intro{
-    padding: 100px 30px 0;
+    padding: 80px 30px 0;
   }
 
   .collection{
     margin-top: 40px;
 
     .item{
-      margin-bottom: 24px;
+      display: block;
+      max-width: auto;
+      text-align: center;
+      padding: 0 30px;
+
+      .image-wrap{
+        padding: 0;
+        text-align: center;
+
+        .image{
+          margin: 0;
+        }
+      }
 
       .title,
       .count-wrap{
@@ -238,5 +307,9 @@
         margin-top: 24px;
       }
     }
+  }
+
+  .purchase-btn{
+    margin: 15px auto 0;
   }
 }

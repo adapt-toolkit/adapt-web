@@ -22,7 +22,7 @@ export default class Team extends Component {
           </div>
           <div className={styles.member}>
             <img src={require("./img/questionmark.png")}/>
-            <div className={styles.name}>You</div>
+            <div className={styles.name}>You?</div>
           </div>
         </div>
         <div className={styles.advisors}>
@@ -33,7 +33,7 @@ export default class Team extends Component {
           </div>
           <div className={styles.member}>
             <img src={require("./img/questionmark.png")}/>
-            <div className={styles.name}>You</div>
+            <div className={styles.name}>You?</div>
           </div>
           <div className={styles.member}></div>
         </div>
