@@ -49,7 +49,11 @@ app.post('/api/create-reserve', ReserveController.addReserve);
 app.post('/api/confirm-reserve', ReserveController.confirmReserve);
 
 app.get('/*', (req, res) => {
-    res.render('index');
+    res.render('index', {
+        protocol: process.env.PROTOCOL,
+        host: process.env.HOST,
+        port: process.env.PORT
+    });
 });
 
 app.listen(process.env.PORT, function () {
