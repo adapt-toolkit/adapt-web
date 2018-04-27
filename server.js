@@ -5,23 +5,29 @@ const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const mongoose = require('mongoose');
+const compression = require('compression');
 
 const ImageController = require('./src/api/Image/ImageController');
 const ReserveController = require('./src/api/Reserve/ReserveController');
 const CategoryController = require('./src/api/Category/CategoryController');
 
 const config = require('./webpack.config.js');
-const compiler = webpack(config);
 
-app.use(webpackDevMiddleware(compiler, {
-    publicPath: config.output.publicPath
-}));
+if ( process.env.NODE_ENV === 'development' ) {
+    const compiler = webpack(config);
 
-app.use(webpackHotMiddleware(compiler));
+    app.use(webpackDevMiddleware(compiler, {
+        publicPath: config.output.publicPath
+    }));
+
+    app.use(webpackHotMiddleware(compiler));
+}
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
+app.use(compression());
+app.use(express.static('./dist'));
 app.use('/', express.static(process.cwd() + '/static/'));
 app.set('view engine', 'ejs');
 
