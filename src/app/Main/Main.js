@@ -33,7 +33,7 @@ export default class Main extends Component {
               ADAPT is a toolkit that enables decentralized software in the same way compilers enable software in general and TCP/IP enables connectivity.<br/>
             </div>
             <div>
-              It provides flexibility that cannot be offered by existing decentralized platforms, which impose their economic design on everyone.
+              It provides flexibility that cannot be offered by existing decentralized platforms that impose their economic design on all users.
             </div>
           </h2>
         </div>
