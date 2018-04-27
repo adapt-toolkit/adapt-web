@@ -11,7 +11,7 @@
   }
 
   .advisors{
-    margin-top: 40px;
+    margin-top: 10px;
 
     h1{
       width: 100%;
@@ -28,7 +28,7 @@
   display: block;
   width: 240px;
   text-align: center;
-  margin: 0 20px;
+  margin: 0 20px 30px;
 
   img{
     width: 240px;
@@ -50,15 +50,22 @@
   }
 }
 
-@media only screen and (max-width: 860px){
+@media only screen and (max-width: 860px) {
+  .container {
+    .advisors {
+      h1 {
+        text-align: center;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px){
   .container{
     margin-top: 100px;
 
     .advisors{
-      margin-top: 10px;
-
       h1{
-        text-align: center;
         font-size: 24px;
         padding-left: 0;
       }
