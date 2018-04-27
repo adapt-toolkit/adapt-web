@@ -10,6 +10,7 @@ const compression = require('compression');
 const ImageController = require('./src/api/Image/ImageController');
 const ReserveController = require('./src/api/Reserve/ReserveController');
 const CategoryController = require('./src/api/Category/CategoryController');
+const DownloadController = require('./src/api/Download/DownloadController');
 
 const config = require('./webpack.config.js');
 
@@ -47,6 +48,7 @@ app.post('/api/show-images', ImageController.showImages);
 app.get('/api/show-categories', CategoryController.showCategories);
 app.post('/api/create-reserve', ReserveController.addReserve);
 app.post('/api/confirm-reserve', ReserveController.confirmReserve);
+app.post('/api/add-download-record', DownloadController.addDownloadRecord);
 
 app.get('/*', (req, res) => {
     res.render('index', {

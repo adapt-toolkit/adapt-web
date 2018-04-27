@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { withRouter } from 'react-router'
 import { Link, NavLink } from 'react-router-dom';
 import classNames from 'classnames';
+import superagent from 'superagent';
 
 class Header extends Component {
   constructor(props) {
@@ -25,6 +26,13 @@ class Header extends Component {
     ));
   }
 
+  addDownloadRecord = (ev) => {
+      superagent
+          .post('/api/add-download-record')
+          .then(function(res) {})
+          .catch(function(err) {});
+  }
+
   render() {
     const styles = require('./Header.scss');
 
@@ -46,7 +54,7 @@ class Header extends Component {
           { [styles.navMenuMobileActive]: dropdownMenuActive }
         )}>
           <NavLink exact to="/" activeClassName={styles.activeLink} style={{animationDelay: "0.3s"}}>Home</NavLink>
-          <a target="_blank" href="/adapt.pdf" style={{animationDelay: "0.4s"}}>White&nbsp;Paper</a>
+          <a href="/adapt.pdf" style={{animationDelay: "0.4s"}} onClick={this.addDownloadRecord} download>Download White&nbsp;Paper</a>
           <NavLink to="/team" activeClassName={styles.activeLink} style={{animationDelay: "0.5s"}}>Team</NavLink>
           <NavLink to="/partners" activeClassName={styles.activeLink} style={{animationDelay: "0.6s"}}>Partners</NavLink>
           <NavLink to="/contribute" activeClassName={styles.activeLink} style={{animationDelay: "0.7s"}}>Contribute</NavLink>
