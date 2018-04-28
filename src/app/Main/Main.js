@@ -30,7 +30,7 @@ export default class Main extends Component {
           </h1>
           <h2>
             <div>
-                ADAPT is a toolkit that will do to blockchain what compilers did to software and TCP/ID did to connectivity.<br/>
+                ADAPT is a toolkit that will do to blockchain what compilers did to software and TCP/IP did to connectivity.<br/>
             </div>
             <div>
                 It does not attempt to capture value at the base economic layer, offering its users the unprecedented flexibility of economic design.
