@@ -43,7 +43,6 @@ export default class Team extends Component {
             <img src={require("./img/questionmark.png")}/>
             <div className={styles.name}>You?</div>
           </div>
-          <div className={styles.member}></div>
         </div>
       </div>
     )
