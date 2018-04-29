@@ -32,6 +32,14 @@ export default class Team extends Component {
             <div className={styles.name}>Jake Brukhman</div>
           </div>
           <div className={styles.member}>
+            <img src={require("./img/burniske.png")}/>
+            <div className={styles.name}>Chris Burniske</div>
+          </div>
+          <div className={styles.member}>
+            <img src={require("./img/nelson.png")}/>
+            <div className={styles.name}>J. Scott Nelson</div>
+          </div>
+          <div className={styles.member}>
             <img src={require("./img/questionmark.png")}/>
             <div className={styles.name}>You?</div>
           </div>
