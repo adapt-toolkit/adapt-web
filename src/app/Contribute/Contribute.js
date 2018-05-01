@@ -46,7 +46,7 @@ class Contribute extends Component {
             });
           };
         } else {
-          if (currElem.index === 0) {
+          if (currElem.id === 0) {
             matchTitleWithAdress = true;
 
             this.setState({
@@ -94,7 +94,7 @@ class Contribute extends Component {
               nextCategoryDescription = currElem.description;
             };
           } else {
-            if (currElem.index === 0) {
+            if (currElem.id === 0) {
               mainCategoryName = currElem.category_name;
               nextCategoryDescription = currElem.description;
             };
@@ -142,7 +142,7 @@ class Contribute extends Component {
       });
   }
 
-  openPopup = (ev, image, id, ext) => {
+  openPopup = (ev, id, image, ext) => {
     ev.preventDefault();
 
     const scrollBarWidth = window.innerWidth - document.body.clientWidth;
@@ -176,11 +176,11 @@ class Contribute extends Component {
   handleSubmit = (ev) => {
     ev.preventDefault();
 
-    const { currItemId, email } = this.state;
+    const { currItemId, email, currItemImage } = this.state;
 
     superagent
       .post('/api/create-reserve')
-      .send({email, image: currItemId})
+      .send({email, id: currItemId, image: currItemImage})
       .then(res => {
         if ( res.statusCode === 200 ) {
           this.setState({
@@ -261,7 +261,7 @@ class Contribute extends Component {
                       currElem.currentReserves !== currElem.amount
                         ? <div
                             className={classNames(styles.button, styles.purchaseBtn)}
-                            onClick={ev => this.openPopup(ev, currElem.id, currElem["_id"], currElem.ext)}
+                            onClick={ev => this.openPopup(ev, currElem.id, currElem.name, currElem.ext)}
                           >Reserve</div>
                         : ""
                     }
