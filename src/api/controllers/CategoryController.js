@@ -2,12 +2,12 @@ const { category } = require('../models/index');
 
 module.exports = {
     addCategory: (req, res) => {
-        const category = req.body;
+        const categoryBody = req.body;
 
         category.create({
-            category_name: category.category_name,
-            title: category.title,
-            description: category.description
+            category_name: categoryBody.category_name,
+            title: categoryBody.title,
+            description: categoryBody.description
         })
             .then( createdCategoryInstance => {
                 if ( createdCategoryInstance ) {
