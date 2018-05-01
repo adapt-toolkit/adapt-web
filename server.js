@@ -7,10 +7,10 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const mongoose = require('mongoose');
 const compression = require('compression');
 
-const ImageController = require('./src/api/Image/ImageController');
-const ReserveController = require('./src/api/Reserve/ReserveController');
+const ImageController = require('./src/api/Controllers/ImageController');
+const ReserveController = require('./src/api/Controllers/ReserveController');
 const CategoryController = require('./src/api/Category/CategoryController');
-const DownloadController = require('./src/api/Download/DownloadController');
+const DownloadController = require('./src/api/Controllers/DownloadController');
 
 const config = require('./webpack.config.js');
 

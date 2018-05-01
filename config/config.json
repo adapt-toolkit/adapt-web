@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "andreykopyonkin",
+    "password": null,
+    "database": "adapt",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "andreykopyonkin",
+    "password": null,
+    "database": "adapt",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "andreykopyonkin",
+    "password": null,
+    "database": "adapt",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
