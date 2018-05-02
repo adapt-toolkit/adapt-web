@@ -7,11 +7,14 @@ module.exports = {
     addImage: (req, res) => {
         const imageBody = req.body;
 
+        const fileName = imageBody.name.split(".");
+
         image.create({
-            name: imageBody.name,
+            name: fileName[0], //filename or hash
             description: imageBody.description,
             eth: imageBody.eth,
-            amount: imageBody.amount
+            amount: imageBody.amount,
+            ext: fileName[1] //extension
         })
             .then(createdImageInstance => {
                 console.log('CREATED IMAGE INSTANCE!');

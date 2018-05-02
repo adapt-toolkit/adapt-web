@@ -35,7 +35,7 @@ module.exports = {
 
         reserve.findAll({ where: {
                 email: reserveBody.email,
-                image: reserveBody.image,
+                image_id: reserveBody.image_id,
                 confirmed: true
             }
         }).then( reserveInstance => {

@@ -8,9 +8,6 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: uuid()
         },
         email: DataTypes.STRING,
-        image: {
-            type: DataTypes.STRING,
-        },
         confirmed: DataTypes.BOOLEAN,
         image_id: DataTypes.INTEGER
     }, {

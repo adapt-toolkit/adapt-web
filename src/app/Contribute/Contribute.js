@@ -176,11 +176,11 @@ class Contribute extends Component {
   handleSubmit = (ev) => {
     ev.preventDefault();
 
-    const { currItemId, email, currItemImage } = this.state;
+    const { currItemId, email } = this.state;
 
     superagent
       .post('/api/create-reserve')
-      .send({email, id: currItemId, image: currItemImage})
+      .send({email, image_id: currItemId})
       .then(res => {
         if ( res.statusCode === 200 ) {
           this.setState({

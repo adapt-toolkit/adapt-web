@@ -11,9 +11,6 @@ module.exports = {
                 defaultValue: uuid()
             },
             email: Sequelize.STRING,
-            image: {
-                type: Sequelize.STRING,
-            },
             confirmed: Sequelize.BOOLEAN,
             image_id: Sequelize.INTEGER,
             createdAt: {

@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 module.exports = (sequelize, DataTypes) => {
     const Images = sequelize.define('image', {
         id: {
@@ -16,5 +18,10 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         tableName: 'image'
     });
+
+    Images.beforeCreate((image, options) => {
+        image.name = crypto.createHash('sha256').update(image.name).digest('hex');
+    });
+
     return Images;
 };
