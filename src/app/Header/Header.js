@@ -28,7 +28,7 @@ class Header extends Component {
 
   addDownloadRecord = (ev) => {
       superagent
-          .post('/api/add-download-record')
+          .post('/api/download')
           .then(function(res) {})
           .catch(function(err) {});
   }

@@ -4,6 +4,31 @@ import { withRouter } from 'react-router'
 import { NavLink } from 'react-router-dom';
 import superagent from 'superagent';
 
+// For later refactoring superagent --> apiRequest
+
+// Call
+//
+// this.apiGetRequest({
+//   url: '/api/categories',
+//   success: (res) => {
+
+//   },
+//   failed: (res) => {
+
+//   }
+// })
+
+// Definition
+//
+// apiGetRequest = (opts) => {
+//   const { url, params, success, failed } = opts;
+//   superagent
+//     .get(url, params)
+//     .then(success_fun)  // res.body, res.headers, res.status
+//     .catch(failed_fun); // err.message, err.response
+// }
+
+
 class Contribute extends Component {
   constructor(props) {
     super(props);
@@ -11,129 +36,106 @@ class Contribute extends Component {
     this.styles = require('./Contribute.scss');
 
     this.state = {
-      images: [],
+      collectibles: [],
+      getCollectiblesError: false,
+
+      // Categories
+      categories: [],
+      categoryKeywordsMap: [],
+      currentCategoryItemId: -1,
+
+      // Reserve PopUp
       isPopupActive: false,
       currItemId: "",
       currItemImage: "",
       isEmailSendSuccess: false,
-      email: '',
-      submitError: "",
-      categoriesArr: [],
-      categoryDescription: "",
-      getImagesError: false
+      email: "",
+      submitError: ""
     };
   }
 
   componentDidMount() {
-    const updateImages = this.updateImages;
-
-    const saveData = (arr) => {
-      let currCategoryDescription = "";
-      let matchTitleWithAdress = false;
-
-      const paramsId = this.props.match.params.id;
-
-      arr.forEach(currElem => {
-        if (paramsId) {
-          if (currElem.category_name === paramsId) {
-            matchTitleWithAdress = true;
-
-            this.setState({
-              categoriesArr: arr,
-              categoryDescription: currElem.description
-            }, () => {
-              this.getImagesWithParams(paramsId);
-            });
-          };
-        } else {
-          if (currElem.id === 0) {
-            matchTitleWithAdress = true;
-
-            this.setState({
-              categoriesArr: arr,
-              categoryDescription: currElem.description
-            }, () => {
-              this.props.history.push(`/contribute/${currElem.category_name}`);
-            });
-          };
-        };
-      });
-
-      if(!matchTitleWithAdress) {
-        this.setState({
-          categoriesArr: arr,
-          getImagesError: true
-        });
-      };
-    };
+    const { storeCategoriesToState } = this;
 
     superagent
-      .get('/api/show-categories')
-      .then(function(res) {
+      .get('/api/categories')
+      .then((res) => {
+        console.log(res.statusCode);
         if ( res.statusCode === 200 ) {
-          saveData(res.body);
+          storeCategoriesToState(res.body);
         };
         // res.body, res.headers, res.status
-        })
-      .catch(function(err) {
+      })
+      .catch((err) => {
         // err.message, err.response
       });
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.location.pathname !== this.props.location.pathname) {
-      let nextCategoryDescription = "";
-      let mainCategoryName = "";
+      const { keyword } = nextProps.match.params;
 
-      const nextParamsId = nextProps.match.params.id;
-
-      if (this.state.categoriesArr.length) {
-        this.state.categoriesArr.forEach(currElem => {
-          if (nextParamsId) {
-            if (currElem.category_name === nextParamsId) {
-              nextCategoryDescription = currElem.description;
-            };
-          } else {
-            if (currElem.id === 0) {
-              mainCategoryName = currElem.category_name;
-              nextCategoryDescription = currElem.description;
-            };
-          };
-        });
-      };
-
-      if (!nextParamsId) {        
+      if (!keyword) {
         this.setState({
-          getImagesError: false
+          currentCategoryItemId: 0
         }, () => {
-          this.props.history.push(`/contribute/${mainCategoryName}`);
+          this.retrieveCollectibles({ category_id: this.currentCategoryItem().id });
         });
       } else {
-        this.setState({
-          categoryDescription: nextCategoryDescription,
-          getImagesError: false
-        }, () => {
-          this.getImagesWithParams(nextParamsId);
+        this.setState(prevState => ({
+          currentCategoryItemId: prevState.categoryKeywordsMap.indexOf(keyword)
+        }), () => {
+          this.retrieveCollectibles({ category_id: this.currentCategoryItem().id });
         });
       };
     };
   }
 
-  updateImages = (arr) => {
-    this.setState({
-      images: arr
-    });
+  storeCategoriesToState = (arr) => {
+    if (!arr || arr.length == 0) { return }
+
+    const { keyword } = this.props.match.params;
+
+    if (!keyword) {
+      this.setState({
+        categories: arr,
+        categoryKeywordsMap: arr.map((currElem, i) => ( currElem.keyword )),
+        currentCategoryItemId: 0
+      }, () => {
+        this.props.history.push(`/contribute/${ this.currentCategoryItem().keyword }`);
+      });
+    } else {
+      arr.forEach((currElem, i) => {
+        if (currElem.keyword === keyword) {
+          this.setState({
+            categories: arr,
+            categoryKeywordsMap: arr.map((currElem, i) => ( currElem.keyword )),
+            currentCategoryItemId: i
+          }, () => {
+            this.retrieveCollectibles({ category_id: currElem.id });
+          });
+        }
+      })
+    }
   }
 
-  getImagesWithParams = (params) => {
-    const updateImages = this.updateImages;
+  updateState = (newState) => {
+    this.setState(newState);
+  }
+
+  currentCategoryItem = () => {
+    return this.state.categories[this.state.currentCategoryItemId] || {};
+  }
+
+  // getCollectiblesWithParams
+  retrieveCollectibles = (params) => {
+    const { updateState } = this;
 
     superagent
-      .post('/api/show-images')
-      .send({ category_name: params })
+      .get('/api/collectibles', params)
       .then(function(res) {
         if ( res.statusCode === 200 ) {
-          updateImages(res.body);
+          updateState({ collectibles: res.body });
         };
         // res.body, res.headers, res.status
         })
@@ -142,7 +144,7 @@ class Contribute extends Component {
       });
   }
 
-  openPopup = (ev, id, image, ext) => {
+  openPopup = (ev, id, hashsum, ext) => {
     ev.preventDefault();
 
     const scrollBarWidth = window.innerWidth - document.body.clientWidth;
@@ -153,7 +155,7 @@ class Contribute extends Component {
     this.setState({
       isPopupActive: true,
       currItemId: id,
-      currItemImage: image + "." + ext
+      currItemImage: hashsum + "." + ext
     });
   }
 
@@ -179,8 +181,8 @@ class Contribute extends Component {
     const { currItemId, email } = this.state;
 
     superagent
-      .post('/api/create-reserve')
-      .send({email, image_id: currItemId})
+      .post('/api/reserve')
+      .send({email, collectible_id: currItemId})
       .then(res => {
         if ( res.statusCode === 200 ) {
           this.setState({
@@ -208,14 +210,14 @@ class Contribute extends Component {
     });
   }
 
-  getItems = () => {
+  renderItems = () => {
     const styles = this.styles;
-    const { images, getImagesError } = this.state;
+    const { collectibles, getCollectiblesError } = this.state;
 
     let maxWidth = 24;
 
-    if (!getImagesError) {
-      images.forEach(currElem => {
+    if (!getCollectiblesError) {
+      collectibles.forEach(currElem => {
         if (currElem.width > maxWidth) {
           maxWidth = currElem.width;
         };
@@ -232,12 +234,12 @@ class Contribute extends Component {
       };
     }
 
-    return !getImagesError
-            ? images.map((currElem, index) => (
+    return !getCollectiblesError
+            ? collectibles.map((currElem, index) => (
                 <div key={index} className={styles.item}>
                   <div className={styles.imageWrap}>
                     <img
-                      src={`/images/${currElem.id}.${currElem.ext}`} className={styles.image}
+                      src={`/images/${currElem.hashsum}.${currElem.ext}`} className={styles.image}
                       style={{ width: `${ getNewWidth(currElem.width) }px` }}
                     />
                     <div className={styles.imageSize}>{currElem.width} x {currElem.height} px</div>
@@ -261,25 +263,24 @@ class Contribute extends Component {
                       currElem.currentReserves !== currElem.amount
                         ? <div
                             className={classNames(styles.button, styles.purchaseBtn)}
-                            onClick={ev => this.openPopup(ev, currElem.id, currElem.name, currElem.ext)}
+                            onClick={ev => this.openPopup(ev, currElem.id, currElem.hashsum, currElem.ext)}
                           >Reserve</div>
                         : ""
                     }
                   </div>
                 </div>
               ))
-            : <div className={styles.getImagesError}><span>Contribution collectibles</span><br/>Coming soon</div>
+            : <div className={styles.getCollectiblesError}><span>Contribution collectibles</span><br/>Coming soon</div>
   }
 
   render() {
     const styles = this.styles;
     const {
+      categories,
       isPopupActive,
       isEmailSendSuccess,
       currItemImage,
-      submitError,
-      categoriesArr,
-      categoryDescription
+      submitError
     } = this.state;
 
     // <p>
@@ -296,17 +297,17 @@ class Contribute extends Component {
         </div>
         <div className={styles.categories}>
           {
-            categoriesArr.map((currElem, index) => (
-              <NavLink to={`/contribute/${currElem.category_name}`} key={index} activeClassName={styles.activeLink}>{currElem.title}</NavLink>
+            categories.map((currElem, index) => (
+              <NavLink to={`/contribute/${currElem.keyword}`} key={index} activeClassName={styles.activeLink}>{currElem.title}</NavLink>
             ))
           }
         </div>
         <div className={styles.description}>
-          { categoryDescription }
+          { this.currentCategoryItem().description }
         </div>
         {/* <div className={classNames(styles.button, styles.myArtBtn)}>My Art</div> */}
         <div className={styles.collection}>
-          { this.getItems() }
+          { this.renderItems() }
         </div>
         {
           isPopupActive &&

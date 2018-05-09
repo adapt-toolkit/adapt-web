@@ -27,8 +27,8 @@ class App extends Component {
             <Route exact path="/team" component={Team}/>
             <Route exact path="/partners" component={Partners}/>
             <Route exact path="/contribute" component={Contribute}/>
-            <Route exact path="/contribute/:id" component={Contribute}/>
-            <Route exact path="/confirm/:id" component={Confirm}/>
+            <Route exact path="/contribute/:keyword" component={Contribute}/>
+            <Route exact path="/confirm/:hashsum" component={Confirm}/>
           </Switch>
         </div>
       </Router>

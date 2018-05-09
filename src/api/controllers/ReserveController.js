@@ -14,7 +14,7 @@ const sendMail = (id, email) => {
     });
 
     let mailOptions = {
-        from: '"ADAPT Support" <adapt@support.com>',
+        from: '"ADAPT Support" <adapt@adaptk.it>',
         to: email,
         subject: 'Confirm image test',
         html: '<b>Hello, click on the link to confirm your email address </b>' +
@@ -34,8 +34,8 @@ module.exports = {
         const reserveBody = req.body;
 
         reserve.findAll({ where: {
+                collectible_id: reserveBody.collectible_id,
                 email: reserveBody.email,
-                image_id: reserveBody.image_id,
                 confirmed: true
             }
         }).then( reserveInstance => {
@@ -43,10 +43,9 @@ module.exports = {
 
             if ( reservesPlain.length === 0 ) {
                 reserve.create({
+                    collectible_id: reserveBody.collectible_id,
                     email: reserveBody.email,
-                    image: reserveBody.image,
                     confirmed: false,
-                    image_id: reserveBody.image_id
                 })
                     .then((createdReserveInstance) => {
                         if ( createdReserveInstance ) {
@@ -94,13 +93,6 @@ module.exports = {
                 console.log('ERR');
                 console.log(err);
                 res.status(500).send();
-            })
-    },
-
-    showAllReserves: (req, res) => {
-        reserve.findAll({})
-            .then(reservesInstance => {
-                res.status(200).send(JSON.parse(JSON.stringify(reservesInstance)));
             })
     }
 }

@@ -6,12 +6,12 @@ module.exports = {
         const ip = req.connection.remoteAddress;
 
         download.create({
-            userAgent: userAgent,
+            user_agent: userAgent,
             ip: ip
         }).then(createdDownloadInstance => {
-            console.log('CREATED DOWNLOAD INSTANCE!');
-            console.log(createdDownloadInstance);
-            console.log(JSON.parse(JSON.stringify(createdDownloadInstance)));
+            // console.log('CREATED DOWNLOAD INSTANCE!');
+            // console.log(createdDownloadInstance);
+            // console.log(JSON.parse(JSON.stringify(createdDownloadInstance)));
 
             if ( createdDownloadInstance ) {
                 res.status(200).send();

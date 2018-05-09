@@ -1,22 +1,22 @@
 {
   "development": {
-    "username": "andreykopyonkin",
+    "username": "yondermon",
     "password": null,
-    "database": "adapt",
+    "database": "adapt-web-cm_development",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
-    "username": "andreykopyonkin",
+    "username": "yondermon",
     "password": null,
-    "database": "adapt",
+    "database": "adapt-web-cm_test",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
-    "username": "andreykopyonkin",
+    "username": "yondermon",
     "password": null,
-    "database": "adapt",
+    "database": "adapt-web-cm_production",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }
