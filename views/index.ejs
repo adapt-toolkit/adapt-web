@@ -12,8 +12,17 @@
 designed from the ground up to serve the needs of your users." />
     <meta property="og:image:width" content="362" />
     <meta property="og:image:height" content="220" />
-
     <meta property="og:image" content="<%= protocol %>://<%= host %>:<%= port %>/adapt-logo.png" />
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120080927-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-120080927-1');
+    </script>
   </head>
   <body>
     <div id="root" style="height: 100%"></div>
