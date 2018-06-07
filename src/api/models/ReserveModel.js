@@ -3,13 +3,15 @@ const uuid = require('uuid/v4');
 module.exports = (sequelize, DataTypes) => {
   const Reserves = sequelize.define('reserve', {
     id: {
-      type: DataTypes.UUID,
+      type: DataTypes.INTEGER,
       primaryKey: true,
-      defaultValue: uuid()
+      autoIncrement: true,
     },
     collectible_id: DataTypes.INTEGER,
 
     email: DataTypes.STRING,
+    eth_address: DataTypes.STRING,
+
     confirmed: DataTypes.BOOLEAN
   }, {
     tableName: 'reserves',

@@ -7,15 +7,13 @@ module.exports = {
   showCollectibles: (req, res) => {
     const { category_id } = req.query;
 
-    console.log(req.query);
-
     // CAUTION: category_id SQL injection vulnerability?
     // Check Sequelize
     collectible.findAll({
       where: {
         category_id: category_id,
       },
-
+      order: Sequelize.col('sort_order'),
       // Need to test out inner count
       // attributes: {
       //     include: [[Sequelize.fn("COUNT", Sequelize.col("reserve.id")), "reserveCount"]]

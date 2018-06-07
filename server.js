@@ -35,7 +35,6 @@ app.set('view engine', 'ejs');
 app.get('/api/collectibles', CollectibleController.showCollectibles);
 app.get('/api/categories', CategoryController.showCategories);
 app.post('/api/reserve', ReserveController.addReserve);
-app.post('/api/reserve/confirm', ReserveController.confirmReserve);
 app.post('/api/download', DownloadController.addDownloadRecord);
 
 app.get('/*', (req, res) => {

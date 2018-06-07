@@ -170,6 +170,7 @@ class Contribute extends Component {
       currItemId: "",
       currItemImage: "",
       email: "",
+      eth_address: "",
       isEmailSendSuccess: false,
       submitError: ""
     });
@@ -178,11 +179,11 @@ class Contribute extends Component {
   handleSubmit = (ev) => {
     ev.preventDefault();
 
-    const { currItemId, email } = this.state;
+    const { currItemId, email, eth_address } = this.state;
 
     superagent
       .post('/api/reserve')
-      .send({email, collectible_id: currItemId})
+      .send({email: email, eth_address: eth_address, collectible_id: currItemId})
       .then(res => {
         if ( res.statusCode === 200 ) {
           this.setState({
@@ -206,6 +207,13 @@ class Contribute extends Component {
   handleEmailInput = ev => {
     this.setState({
         email: ev.target.value,
+        submitError: ""
+    });
+  }
+
+  handleEthAddrInput = ev => {
+    this.setState({
+        eth_address: ev.target.value,
         submitError: ""
     });
   }
@@ -249,18 +257,21 @@ class Contribute extends Component {
                     <div className={styles.countWrap}>
                       <div className={styles.count}>
                         <b>{currElem.amount - (currElem.currentReserves || 0)}</b> of <b>{currElem.amount}</b> copies available<br/>
-                        <b>0</b> acquired / <b>{currElem.currentReserves || 0}</b> reserved
+                        <b>{currElem.currentReserves || 0}</b> reserved
                       </div>
                     </div>
                     <div className={styles.priceWrap}>
                       {
-                        currElem.currentReserves !== currElem.amount
-                          ? <div className={styles.price}>Donate <span>{currElem.eth}&nbsp;ETH</span> or more to get one.</div>
-                          : <div className={styles.price}>Was available for donation <span>{currElem.eth}&nbsp;ETH</span> or more.</div>
+                        currElem.unsaleable ?
+                          <div className={styles.price}>This item cannot be sold or reserved.</div>
+                        :
+                          (currElem.currentReserves !== currElem.amount
+                            ? <div className={styles.price}>Donate <span>{currElem.eth}&nbsp;ETH</span> or more to get one.</div>
+                            : <div className={styles.price}>Was available for donation <span>{currElem.eth}&nbsp;ETH</span> or more.</div>)
                       }
                     </div>
                     {
-                      currElem.currentReserves !== currElem.amount
+                      currElem.currentReserves !== currElem.amount && !currElem.unsaleable
                         ? <div
                             className={classNames(styles.button, styles.purchaseBtn)}
                             onClick={ev => this.openPopup(ev, currElem.id, currElem.hashsum, currElem.ext)}
@@ -322,7 +333,9 @@ class Contribute extends Component {
               { !isEmailSendSuccess
                 ? <div className={styles.spacer}>
                     <div className={styles.text}>
-                      Please enter your email and we will send you further instructions
+                      By providing your ethereum address you may reserve the drawing prior to the beginning of the fundraising. 
+                      Your reservation will be honored for 72 hours from the start of the sale. If you do not claim your drawing
+                      within this time period, your reservation will be cancelled and the reward will be released to the community
                     </div>
                     <form onSubmit={ev => this.handleSubmit(ev)}>
                       { submitError
@@ -332,15 +345,21 @@ class Contribute extends Component {
                         : ""
                       }
                       <input
+                          placeholder="Enter your ETH address"
+                          required
+                          onInput={this.handleEthAddrInput}
+                      ></input>
+                      <input
                           placeholder="Enter your email"
                           required
                           onInput={this.handleEmailInput}
                       ></input>
-                      <button className={classNames(styles.button, styles.sendBtn)}>Send</button>
+                      <button className={classNames(styles.button, styles.sendBtn)}>Submit</button>
                     </form>
                   </div>
                 : <div className={styles.sendMailSuccess}>
-                    Thank you! Letter send successful.
+                    Your address {this.state.eth_address} has been recorded.<br/>
+                    Please watch your email for announcements about the start of the contribution process.
                   </div>
               }
               <div className={styles.closeBtn} onClick={ev => this.closePopup(ev)}></div>
