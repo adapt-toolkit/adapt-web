@@ -357,7 +357,7 @@ class Contribute extends Component {
 
     return (
       <div>
-        { acceptPolicy
+        { true // acceptPolicy
           ? <div>
               <div className={styles.intro}>
                 <p>
@@ -442,7 +442,7 @@ class Contribute extends Component {
                   onClick={ev => this.toggleCheckbox(ev, "checkbox1")}
                 ></div>
                 <div>
-                   I agree with <Link to="/terms_and_conditions">terms and conditions</Link>
+                   I agree with <Link to="/terms_and_conditions">Terms and Conditions</Link>
                 </div>
               </div>
               <div className={styles.terms}>
@@ -454,7 +454,7 @@ class Contribute extends Component {
                   onClick={ev => this.toggleCheckbox(ev, "checkbox2")}
                 ></div>
                 <div>
-                  I agree with <Link to="/privacy_policy">privacy policy</Link>
+                  I agree with <Link to="/privacy_policy">Privacy Policy</Link>
                 </div>
               </div>
               <button

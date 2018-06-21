@@ -11,6 +11,7 @@ const CollectibleController = require('./src/api/controllers/CollectibleControll
 const ReserveController = require('./src/api/controllers/ReserveController');
 const CategoryController = require('./src/api/controllers/CategoryController');
 const DownloadController = require('./src/api/controllers/DownloadController');
+const SubscriptionController = require('./src/api/controllers/SubscriptionController');
 
 const config = require('./webpack.config.js');
 
@@ -35,6 +36,7 @@ app.set('view engine', 'ejs');
 app.get('/api/collectibles', CollectibleController.showCollectibles);
 app.get('/api/categories', CategoryController.showCategories);
 app.post('/api/reserve', ReserveController.addReserve);
+app.post('/api/subscribe', SubscriptionController.addSubscription);
 app.post('/api/download', DownloadController.addDownloadRecord);
 
 app.get('/*', (req, res) => {

@@ -16,6 +16,25 @@
   }
 }
 
+@keyframes press{
+  0%{
+    opacity: 0;
+    background-color: rgba(0,0,0, 1);
+  }
+  1%{
+    opacity: 1;
+    background-color: rgba(0,0,0, 1);
+  }
+  99%{
+    opacity: 1;
+    background-color: rgba(0,0,0, 1);
+  }
+  100%{
+    opacity: 1;
+    background-color: rgba(0,0,0, 0);
+  }
+}
+
 .container{
   width: 100%;
   height: 109px;
@@ -29,13 +48,15 @@
   z-index: 110;
 
   .logo-wrap{
+    position: relstive;
+    font-family: 'PT Mono', monospace;
+
     .logo{
       display: flex;
       align-items: center;
       line-height: 29px;
       font-size: 26px;
       font-weight: bold;
-      font-family: 'PT Mono', monospace;
       color: #000;
 
       .cursor{
@@ -44,6 +65,23 @@
         height: 29px;
         margin-left: 1px;
         animation: blinking 3s linear 0s infinite;
+      }
+
+      .remove-cursor{
+        visibility: hidden;
+      }
+    }
+
+    .logo-text{
+      position: absolute;
+
+      .char{
+        display: inline-block;
+        font-size: 10px;
+      }
+
+      .black{
+        background-color: #000;
       }
     }
   }

@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Downloads = sequelize.define('download', {
+  const Subscriptions = sequelize.define('subscription', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -7,11 +7,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     email: DataTypes.STRING,
   }, {
-    tableName: 'downloads',
+    tableName: 'subscriptions',
     createdAt   : 'created_at',
     updatedAt   : 'updated_at',
     timestamps  : true,
     underscored : true
   });
-  return Downloads;
+  return Subscriptions;
 };

@@ -13,8 +13,6 @@ module.exports = {
       }
     }).then(reserveInstance => {
       const reservesPlain = JSON.parse(JSON.stringify(reserveInstance));
-      
-      console.log("ETH ADDRESS:"+reserveBody.eth_address);
 
       if (reservesPlain.length === 0) {
         reserve.count({

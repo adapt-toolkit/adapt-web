@@ -8,8 +8,14 @@ class Header extends Component {
   constructor(props) {
     super(props);
 
+    this.quote = "Quis dirumpet ipsos dirumpentes?".split('');
+    // this.quote_spaces = [19, 13, 4];
+    this.styles = require('./Header.scss');
+
     this.state = {
-      dropdownMenuActive: false
+      dropdownMenuActive: false,
+      logoText: new Array(this.quote.length),
+      removeCursor: false
     };
   }
 
@@ -19,8 +25,60 @@ class Header extends Component {
     };
   }
 
+  cursorAnimation = (indexElem , index) => {
+    const { logoText } = this.state;
+
+    if (index % 2 === 0) {
+      logoText[indexElem+1] = " ";
+    } else {
+      logoText[indexElem+1] = "_";
+    };
+
+    this.setState({
+      logoText: logoText
+    });
+
+    if (index < 2) {
+      setTimeout(() => { this.cursorAnimation(indexElem, index+1) }, 1600);
+    } else {
+      this.setState({
+        removeCursor: false
+      });
+    };
+  }
+
+  renderSym = (index) => {
+    const { logoText } = this.state;
+
+    logoText[index] = this.quote[index];
+    logoText[index + 1] = "_";
+
+    this.setState({
+      logoText: logoText
+    });
+
+    if (index < this.quote.length) {
+      let timing = (this.quote[index+1] == " ") ? 250 : 20 + (Math.random() * 100);
+      setTimeout(() => { this.renderSym(index+1) }, timing);
+    } else {
+      setTimeout(() => {
+        this.cursorAnimation(index, 0);
+      }, 200);
+    }
+  }
+
+  componentDidMount() {
+    setTimeout(()=> {
+      this.setState({
+        removeCursor: true
+      }, () => {
+        this.renderSym(0);
+      })
+    }, 3000)
+  }
+
   handleBtnClick = (ev) => {
-    ev.preventDefault(); 
+    ev.preventDefault();
     this.setState(prevState => (
       { dropdownMenuActive: !prevState.dropdownMenuActive }
     ));
@@ -34,9 +92,12 @@ class Header extends Component {
   }
 
   render() {
-    const styles = require('./Header.scss');
+    const styles = this.styles;
 
-    const { dropdownMenuActive } = this.state;
+    const {
+      dropdownMenuActive,
+      removeCursor
+    } = this.state;
 
     return (
       <div className={classNames(
@@ -46,8 +107,25 @@ class Header extends Component {
         <div className={styles.logoWrap}>
           <Link to="/" className={styles.logo}>
             <span>ADAPT</span>
-            <div className={styles.cursor}></div>
+            <div className={classNames(
+              styles.cursor,
+              { [styles.removeCursor]: removeCursor }
+            )}></div>
           </Link>
+          <div className={styles.logoText}>
+            { this.state.logoText.map((currElem, index) => {
+                return <div
+                    className={classNames(
+                      styles.char,
+                      { [styles.black]: currElem === "_" }
+                    )}
+                    key={index}
+                  >
+                    {currElem}
+                  </div>
+              })
+            }
+          </div>
         </div>
         <div className={classNames(
           styles.navMenu,
