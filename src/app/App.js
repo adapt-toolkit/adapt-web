@@ -32,7 +32,7 @@ class App extends Component {
             <Route exact path="/contribute" component={Contribute}/>
             <Route exact path="/contribute/:keyword" component={Contribute}/>
             <Route exact path="/confirm/:hashsum" component={Confirm}/>
-            <Route exact path="/contacts" component={Contacts}/>
+            <Route exact path="/contact" component={Contacts}/>
             <Route exact path="/terms_and_conditions" component={Terms}/>
             <Route exact path="/privacy_policy" component={Policy}/>
           </Switch>
