@@ -365,7 +365,11 @@ class Contribute extends Component {
                   Contributors may choose to get an Ethereum non-fungible asset — <b>unique digital art</b> — as a token of community appreciation for their contribution.
                 </p>
               </div>
-              <div className={styles.categories}>
+              <div className={styles.comingSoon}>
+                Contribution collectibles
+                <div>Coming soon</div>
+              </div>
+              { /* <div className={styles.categories}>
                 {
                   categories.map((currElem, index) => (
                     <NavLink to={`/contribute/${currElem.keyword}`} key={index} activeClassName={styles.activeLink}>{currElem.title}</NavLink>
@@ -375,7 +379,7 @@ class Contribute extends Component {
               <div className={styles.description}>
                 { this.currentCategoryItem().description }
               </div>
-              {/* <div className={classNames(styles.button, styles.myArtBtn)}>My Art</div> */}
+              {/* <div className={classNames(styles.button, styles.myArtBtn)}>My Art</div> }
               <div className={styles.collection}>
                 { this.renderItems() }
               </div>
@@ -431,6 +435,7 @@ class Contribute extends Component {
                   </div>
                 </div>
               }
+              */}
             </div>
           : <div className={styles.termsWrap}>
               <div className={styles.terms}>

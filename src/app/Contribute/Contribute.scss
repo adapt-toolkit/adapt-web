@@ -12,6 +12,18 @@
   }
 }
 
+.coming_soon{
+  max-width: 600px;
+  font-size: 12px;
+  text-align: center;
+  padding: 50px 0 40px;
+  margin: auto;
+
+  div{
+    font-size: 22px;
+  }
+}
+
 .categories{
   display: flex;
   justify-content: center;
