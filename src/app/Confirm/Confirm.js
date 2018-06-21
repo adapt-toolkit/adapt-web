@@ -12,7 +12,7 @@ export default class Confirm extends Component {
 
   componentDidMount(){
     superagent
-      .post('/api/confirm-reserve')
+      .post('/api/reserve/confirm')
       .send({id: this.props.match.params.id})
       .then(res => {
         if ( res.statusCode === 200 ) {

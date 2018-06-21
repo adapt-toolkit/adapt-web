@@ -6,17 +6,6 @@ export default class Main extends Component {
     super(props);
   }
 
-  componentDidMount() {
-    // superagent
-    //   .get('/api/get-todos')
-    //   .end((err, res) => {
-    //     console.log('ERROR');
-    //     console.log(err);
-    //     console.log('RESPONSE');
-    //     console.log(res);
-    //   })
-  }
-
   render() {
     const styles = require('./Main.scss');
 
