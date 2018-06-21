@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import classNames from 'classnames';
 import { withRouter } from 'react-router'
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import superagent from 'superagent';
+
+import { getCookie } from '../utils/utils';
 
 // For later refactoring superagent --> apiRequest
 
@@ -39,6 +41,11 @@ class Contribute extends Component {
       collectibles: [],
       getCollectiblesError: false,
 
+      // Policy
+      acceptPolicy: false,
+      checkbox1: false,
+      checkbox2: false,
+
       // Categories
       categories: [],
       categoryKeywordsMap: [],
@@ -48,14 +55,23 @@ class Contribute extends Component {
       isPopupActive: false,
       currItemId: "",
       currItemImage: "",
-      isEmailSendSuccess: false,
+      submitSuccess: false,
       email: "",
-      submitError: ""
+      submitError: "",
+      reserveError: false,
+      reserveTotal: 0
     };
   }
 
   componentDidMount() {
     const { storeCategoriesToState } = this;
+    const cookie = getCookie(document.cookie);
+
+    if (cookie.acceptPolicy) {
+      this.setState({
+        acceptPolicy: true
+      });
+    };
 
     superagent
       .get('/api/categories')
@@ -144,7 +160,7 @@ class Contribute extends Component {
       });
   }
 
-  openPopup = (ev, id, hashsum, ext) => {
+  openPopup = (ev, id, hashsum, ext, reserveTotal) => {
     ev.preventDefault();
 
     const scrollBarWidth = window.innerWidth - document.body.clientWidth;
@@ -155,7 +171,8 @@ class Contribute extends Component {
     this.setState({
       isPopupActive: true,
       currItemId: id,
-      currItemImage: hashsum + "." + ext
+      currItemImage: hashsum + "." + ext,
+      reserveTotal: reserveTotal
     });
   }
 
@@ -165,43 +182,85 @@ class Contribute extends Component {
     document.body.style.overflowY = 'scroll';
     document.body.style.marginRight = '0';
 
+    if (this.state.submitSuccess) {
+      this.retrieveCollectibles({ category_id: this.currentCategoryItem().id });
+    };
+
     this.setState({
       isPopupActive: false,
       currItemId: "",
       currItemImage: "",
       email: "",
       eth_address: "",
-      isEmailSendSuccess: false,
-      submitError: ""
+      submitSuccess: false,
+      submitError: "",
+      reserveError: false,
+      reserveTotal: 0
     });
   }  
 
-  handleSubmit = (ev) => {
+  reserveHandleSubmit = (ev) => {
     ev.preventDefault();
 
-    const { currItemId, email, eth_address } = this.state;
+    const { currItemId, email, eth_address, reserveTotal } = this.state;
 
     superagent
       .post('/api/reserve')
-      .send({email: email, eth_address: eth_address, collectible_id: currItemId})
+      .send({email: email, eth_address: eth_address, collectible_id: currItemId, reserve_total: reserveTotal})
       .then(res => {
         if ( res.statusCode === 200 ) {
           this.setState({
-            isEmailSendSuccess: true,
+            submitSuccess: true,
             submitError: ""
           });
         } else {
           if ( res.statusCode === 422 ) {
+            console.log("This email address is already in use");
             this.setState({
               submitError: "This email address is already in use"
             });
           } else {
+            console.log("Unknown error");
             this.setState({
               submitError: "Unknown error"
             });
           };
         }
       })
+      .catch(err => {
+        console.log("reserveError");
+
+        this.setState({
+          submitSuccess: true,
+          reserveError: true
+        });
+      })
+  }
+
+  handleAcceptPolicy = (ev) => {
+    ev.preventDefault();
+
+    const {
+      checkbox1,
+      checkbox2
+    } = this.state;
+
+    if (checkbox1 && checkbox2) {
+      document.cookie = 'acceptPolicy=true' + '; path=/; expires=' + new Date(new Date().getTime() + 180 * 24 * 60 * 60 * 1000).toUTCString();
+
+      this.setState({
+        acceptPolicy: true
+      });
+    };
+  }
+
+  toggleCheckbox = (ev, checkbox) => {
+    console.log("Start toggleCheckbox");
+    ev.preventDefault();
+
+    this.setState(prevState => ({
+      [checkbox]: !prevState[checkbox]
+    }));
   }
 
   handleEmailInput = ev => {
@@ -232,13 +291,11 @@ class Contribute extends Component {
       });
     };
 
-    const getNewWidth = (prevWidth) => {
-      const nextWidth = (240 * ((prevWidth * 100) / maxWidth)) / 100;
-
-      if (nextWidth < 24) {
-        return 24;
+    const getNewWidth = (width) => {
+      if (width > 240) {
+        return 240;
       } else {
-        return nextWidth;
+        return width;
       };
     }
 
@@ -274,7 +331,7 @@ class Contribute extends Component {
                       currElem.currentReserves !== currElem.amount && !currElem.unsaleable
                         ? <div
                             className={classNames(styles.button, styles.purchaseBtn)}
-                            onClick={ev => this.openPopup(ev, currElem.id, currElem.hashsum, currElem.ext)}
+                            onClick={ev => this.openPopup(ev, currElem.id, currElem.hashsum, currElem.ext, currElem.amount)}
                           >Reserve</div>
                         : ""
                     }
@@ -289,9 +346,13 @@ class Contribute extends Component {
     const {
       categories,
       isPopupActive,
-      isEmailSendSuccess,
+      submitSuccess,
       currItemImage,
-      submitError
+      submitError,
+      reserveError,
+      acceptPolicy,
+      checkbox1,
+      checkbox2
     } = this.state;
 
     // <p>
@@ -300,70 +361,117 @@ class Contribute extends Component {
 
     return (
       <div>
-        <div className={styles.intro}>
-          <p>
-            Because <b>ADAPT</b> is designed to give developers the most freedom possible, it does not have a token of its own. Instead, we are funding initial stages of development with donations.<br/><br/>
-            Contributors may choose to get an Ethereum non-fungible asset — <b>unique digital art</b> — as a token of community appreciation for their contribution.
-          </p>
-        </div>
-        <div className={styles.categories}>
-          {
-            categories.map((currElem, index) => (
-              <NavLink to={`/contribute/${currElem.keyword}`} key={index} activeClassName={styles.activeLink}>{currElem.title}</NavLink>
-            ))
-          }
-        </div>
-        <div className={styles.description}>
-          { this.currentCategoryItem().description }
-        </div>
-        {/* <div className={classNames(styles.button, styles.myArtBtn)}>My Art</div> */}
-        <div className={styles.collection}>
-          { this.renderItems() }
-        </div>
-        {
-          isPopupActive &&
-          <div className={styles.popupWrap}>
-            <div className={styles.popup}>
-              { !isEmailSendSuccess &&
-                <div>
-                  <img src={`/images/${currItemImage}`} className={styles.image}/>
+        { acceptPolicy
+          ? <div>
+              <div className={styles.intro}>
+                <p>
+                  Because <b>ADAPT</b> is designed to give developers the most freedom possible, it does not have a token of its own. Instead, we are funding initial stages of development with donations.<br/><br/>
+                  Contributors may choose to get an Ethereum non-fungible asset — <b>unique digital art</b> — as a token of community appreciation for their contribution.
+                </p>
+              </div>
+              <div className={styles.categories}>
+                {
+                  categories.map((currElem, index) => (
+                    <NavLink to={`/contribute/${currElem.keyword}`} key={index} activeClassName={styles.activeLink}>{currElem.title}</NavLink>
+                  ))
+                }
+              </div>
+              <div className={styles.description}>
+                { this.currentCategoryItem().description }
+              </div>
+              {/* <div className={classNames(styles.button, styles.myArtBtn)}>My Art</div> */}
+              <div className={styles.collection}>
+                { this.renderItems() }
+              </div>
+              {
+                isPopupActive &&
+                <div className={styles.popupWrap}>
+                  <div className={styles.popup}>
+                    { !submitSuccess &&
+                      <div>
+                        <img src={`/images/${currItemImage}`} className={styles.image}/>
+                      </div>
+                    }
+
+                    { !submitSuccess
+                      ? <div className={styles.spacer}>
+                          <div className={styles.text}>
+                            By providing your ethereum address you may reserve the drawing prior to the beginning of the fundraising. 
+                            Your reservation will be honored for 72 hours from the start of the sale. If you do not claim your drawing
+                            within this time period, your reservation will be cancelled and the reward will be released to the community
+                          </div>
+                          <form onSubmit={ev => this.reserveHandleSubmit(ev)}>
+                            { submitError
+                              ? <div className={styles.submitError}>
+                                  {submitError}
+                                </div>
+                              : ""
+                            }
+                            <input
+                                placeholder="Enter your ETH address"
+                                required
+                                onInput={this.handleEthAddrInput}
+                            ></input>
+                            <input
+                                placeholder="Enter your email"
+                                required
+                                onInput={this.handleEmailInput}
+                            ></input>
+                            <button className={classNames(styles.button, styles.sendBtn)}>Submit</button>
+                          </form>
+                        </div>
+                      : <div className={styles.sendMailSuccess}>
+                          { reserveError
+                            ? <div>
+                                Some error
+                              </div>
+                            : <div>
+                                Your address {this.state.eth_address} has been recorded.<br/>
+                                Please watch your email for announcements about the start of the contribution process.
+                              </div>
+                          }
+                        </div>
+                    }
+                    <div className={styles.closeBtn} onClick={ev => this.closePopup(ev)}></div>
+                  </div>
                 </div>
               }
-
-              { !isEmailSendSuccess
-                ? <div className={styles.spacer}>
-                    <div className={styles.text}>
-                      By providing your ethereum address you may reserve the drawing prior to the beginning of the fundraising. 
-                      Your reservation will be honored for 72 hours from the start of the sale. If you do not claim your drawing
-                      within this time period, your reservation will be cancelled and the reward will be released to the community
-                    </div>
-                    <form onSubmit={ev => this.handleSubmit(ev)}>
-                      { submitError
-                        ? <div className={styles.submitError}>
-                            {submitError}
-                          </div>
-                        : ""
-                      }
-                      <input
-                          placeholder="Enter your ETH address"
-                          required
-                          onInput={this.handleEthAddrInput}
-                      ></input>
-                      <input
-                          placeholder="Enter your email"
-                          required
-                          onInput={this.handleEmailInput}
-                      ></input>
-                      <button className={classNames(styles.button, styles.sendBtn)}>Submit</button>
-                    </form>
-                  </div>
-                : <div className={styles.sendMailSuccess}>
-                    Your address {this.state.eth_address} has been recorded.<br/>
-                    Please watch your email for announcements about the start of the contribution process.
-                  </div>
-              }
-              <div className={styles.closeBtn} onClick={ev => this.closePopup(ev)}></div>
             </div>
+          : <div className={styles.termsWrap}>
+              <div className={styles.terms}>
+                <div
+                  className={classNames(
+                    styles.policyCheckbox,
+                    { [styles.checkboxActive]: checkbox1 }
+                  )}
+                  onClick={ev => this.toggleCheckbox(ev, "checkbox1")}
+                ></div>
+                <div>
+                   I agree with <Link to="/terms_and_conditions">terms and conditions</Link>
+                </div>
+              </div>
+              <div className={styles.terms}>
+                <div
+                  className={classNames(
+                    styles.policyCheckbox,
+                    { [styles.checkboxActive]: checkbox2 }
+                  )}
+                  onClick={ev => this.toggleCheckbox(ev, "checkbox2")}
+                ></div>
+                <div>
+                  I agree with <Link to="/privacy_policy">privacy policy</Link>
+                </div>
+              </div>
+              <button
+                className={
+                  classNames(
+                    styles.button,
+                    styles.acceptPolicyBtn,
+                    { [styles.activeBtn]: checkbox1 && checkbox2 }
+                  )
+                }
+                onClick={ev => this.handleAcceptPolicy(ev)}
+              >Accept Policy</button>
           </div>
         }
       </div>

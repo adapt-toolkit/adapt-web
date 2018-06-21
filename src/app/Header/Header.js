@@ -58,6 +58,7 @@ class Header extends Component {
           <NavLink to="/team" activeClassName={styles.activeLink} style={{animationDelay: "0.5s"}}>Team</NavLink>
           <NavLink to="/partners" activeClassName={styles.activeLink} style={{animationDelay: "0.6s"}}>Partners</NavLink>
           <NavLink to="/contribute" activeClassName={styles.activeLink} style={{animationDelay: "0.7s"}}>Contribute</NavLink>
+          <NavLink to="/contacts" activeClassName={styles.activeLink} style={{animationDelay: "0.8s"}}>Contacts</NavLink>
         </div>
         <div
           className={classNames(

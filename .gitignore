@@ -9,6 +9,9 @@
 
 # Ignore all logfiles and tempfiles.
 /node_modules
+/static/p
+/static/j
+/static/images
 /.idea
 .DS_Store
 package-lock.json
