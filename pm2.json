@@ -1,0 +1,9 @@
+{
+ "apps": [
+		{
+		"name": "apapt-web",
+		"scripts": "npm",
+		"args": "run prod"
+		}
+	]
+}

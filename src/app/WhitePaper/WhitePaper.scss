@@ -1,0 +1,50 @@
+.container{
+    max-width: 710px;
+    font-size: 14px;
+    padding-top: 170px;
+    margin: 0 auto;
+
+    section{
+        float: left;
+        padding-bottom: 60px;
+    }
+
+    .col-left{
+        overflow: hidden;
+        float: left;
+        width: 280px;       
+    }
+
+    .col-right{
+        overflow: hidden;
+        float: left;
+        text-align: left;
+    }
+
+    .shadow{
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        max-width: 70%;
+        margin-bottom: 20px;
+        max-height: 400px;
+    }
+
+    .button{
+        font-size: 14px;
+        width: 120px;
+        line-height: 15px;
+        color: #FFF;
+        text-align: center;
+        background-color: #4A90E2;
+        border-radius: 5px;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        border: 1px solid #4591de;
+        box-sizing: border-box;
+        cursor: pointer;
+        padding: 10px 0 10px;
+        margin: 0 0 0 5px;
+    
+        &:focus{
+          outline: none;
+        }
+      }
+  }
