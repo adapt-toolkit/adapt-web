@@ -1,9 +1,12 @@
+const Sequelize = require('sequelize');
 const { category } = require('../models/index');
 
 module.exports = {
     showCategories: (req, res) => {
         category
-            .findAll({})
+            .findAll({
+                order: Sequelize.col('id')
+            })
             .then(categoryInstances => {
                 const categoriesPlain = JSON.parse(JSON.stringify(categoryInstances));
 
