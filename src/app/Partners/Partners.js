@@ -19,7 +19,7 @@ export default class Partners extends Component {
         <a target="_blank" href="https://consensuslabs.com">
           <img src={require("./img/consensuslabs.png")}/>
         </a>
-        <a target="_blank" href="https://www.linkedin.com/company/135b/">
+        <a target="_blank" href="https://135b.io">
           <img src={require("./img/135b.jpg")}/>
         </a>
       </div>
