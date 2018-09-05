@@ -329,12 +329,22 @@ class Contribute extends Component {
                             : <div className={styles.price}>Was available for donation <span>{currElem.eth}&nbsp;ETH</span> or more.</div>)
                       }
                     </div>
+                    {/*{*/}
+                      {/*currElem.currentReserves !== currElem.amount && !currElem.unsaleable*/}
+                        {/*? <div*/}
+                            {/*className={classNames(styles.button, styles.purchaseBtn)}*/}
+                            {/*onClick={ev => this.openPopup(ev, currElem.id, currElem.hashsum, currElem.ext, currElem.amount)}*/}
+                          {/*>Reserve</div>*/}
+                        {/*: ""*/}
+                    {/*}*/}
+
                     {
                       currElem.currentReserves !== currElem.amount && !currElem.unsaleable
-                        ? <div
-                            className={classNames(styles.button, styles.purchaseBtn)}
-                            onClick={ev => this.openPopup(ev, currElem.id, currElem.hashsum, currElem.ext, currElem.amount)}
-                          >Reserve</div>
+                        ? <a
+                              className={classNames(styles.button, styles.purchaseBtn)}
+                              target="_blank"
+                              href={`${UNIQX_ENVIRONMENT_PREFIX}/details/${currElem.hashsum}`}
+                          >Donate</a>
                         : ""
                     }
                   </div>
@@ -391,7 +401,10 @@ categories.map(value => {
                   The rewards are displayed below, organized into series. Click on the name of the series to view the available art.
                 </p>
               </div>
-              <div className={styles.categoriesTitle}>Choose the series below</div>
+              <header className={styles.categoriesHeader}>
+                  <span className={styles.categoriesTitle}>Choose the series below</span>
+                  <a className={styles.viewMyCollection} target="_blank" href={`${UNIQX_ENVIRONMENT_PREFIX}/collection`}>view My collection</a>
+              </header>
               <div className={styles.categories}>
                 {
                 //  categories.map((currElem, index) => (
@@ -405,6 +418,9 @@ categories.map(value => {
                  
                 }
               </div>
+
+              <a className={styles.showMore} target="_blank" href={`${UNIQX_ENVIRONMENT_PREFIX}`}>Go To Adapt Market</a>
+
               <div className={styles.description} dangerouslySetInnerHTML={{ __html: this.currentCategoryItem().description }} />
               {/* <div className={classNames(styles.button, styles.myArtBtn)}>My Art</div> */}
               <div className={styles.collection}>

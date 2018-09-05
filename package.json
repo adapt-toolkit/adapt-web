@@ -20,7 +20,8 @@
         "SMTP": "smtp.gmail.com",
         "SMTP_PORT": 465,
         "SMTP_LOGIN": "",
-        "SMTP_PASSWORD": ""
+        "SMTP_PASSWORD": "",
+        "UNIQX_ENVIRONMENT_PREFIX": "https://staging.uniqx.io"
       }
     },
     "start-prod": {
@@ -33,7 +34,8 @@
         "SMTP": "smtp.gmail.com",
         "SMTP_PORT": 465,
         "SMTP_LOGIN": "",
-        "SMTP_PASSWORD": ""
+        "SMTP_PASSWORD": "",
+        "UNIQX_ENVIRONMENT_PREFIX": "https://staging.uniqx.io"
       }
     },
     "production": {
@@ -46,7 +48,8 @@
         "SMTP": "smtp.gmail.com",
         "SMTP_PORT": 465,
         "SMTP_LOGIN": "",
-        "SMTP_PASSWORD": ""
+        "SMTP_PASSWORD": "",
+        "UNIQX_ENVIRONMENT_PREFIX": "https://staging.uniqx.io"
       }
     }
   },
