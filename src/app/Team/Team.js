@@ -26,7 +26,7 @@ export default class Team extends Component {
           </div>
           <div className={styles.member}>
             <img src={require("./img/evgeniy_babiy.jpg")}/>
-            <div className={styles.name}>(Evgeniy Babiy</div>
+            <div className={styles.name}>Evgeniy Babiy</div>
           </div>
           <div className={styles.member}>
             <img src={require("./img/questionmark.png")}/>
