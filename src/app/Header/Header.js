@@ -133,7 +133,7 @@ class Header extends Component {
         )}>
           <NavLink exact to="/" activeClassName={styles.activeLink} style={{animationDelay: "0.3s"}}>Home</NavLink>
           {/* <a href="/adapt.pdf" style={{animationDelay: "0.4s"}} onClick={this.addDownloadRecord} download>White&nbsp;Paper</a> */}
-          <NavLink to="/white-paper" activeClassName={styles.activeLink} style={{animationDelay: "0.5s"}}>White&nbsp;Paper</NavLink>
+          <NavLink to="/documentation" activeClassName={styles.activeLink} style={{animationDelay: "0.5s"}}>Documentation</NavLink>
           <NavLink to="/team" activeClassName={styles.activeLink} style={{animationDelay: "0.5s"}}>Team</NavLink>
           <NavLink to="/partners" activeClassName={styles.activeLink} style={{animationDelay: "0.6s"}}>Partners</NavLink>
           <NavLink to="/contribute" activeClassName={styles.activeLink} style={{animationDelay: "0.7s"}}>Contribute</NavLink>

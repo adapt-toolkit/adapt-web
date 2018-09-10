@@ -11,18 +11,22 @@ export default class Team extends Component {
     return (
       <div className={styles.container}>
         <div className={styles.team}>
-          <h1>Founders</h1>
+          <h1>Team</h1>
           <a target="_blank" href="https://twitter.com/coinfund_al" className={styles.member}>
             <img src={require("./img/bulkin.png")}/>
             <div className={styles.name}>Aleksandr Bulkin</div>
           </a>
           <div className={styles.member}>
-            <img src={require("./img/klymentiev.png")}/>
-            <div className={styles.name}>Viktor Klymentiev</div>
-          </div>
-          <div className={styles.member}>
             <img src={require("./img/delany.png")}/>
             <div className={styles.name}>Mack Delany</div>
+          </div>
+          <div className={styles.member}>
+            <img src={require("./img/bogdan_lysak.jpg")}/>
+            <div className={styles.name}>Bogdan Lysak</div>
+          </div>
+          <div className={styles.member}>
+            <img src={require("./img/evgeniy_babiy.jpg")}/>
+            <div className={styles.name}>(Evgeniy Babiy</div>
           </div>
           <div className={styles.member}>
             <img src={require("./img/questionmark.png")}/>

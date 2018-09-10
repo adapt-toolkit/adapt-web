@@ -29,7 +29,8 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Main}/>
             <Route exact path="/team" component={Team}/>
-            <Route exact path="/white-paper" component={WhitePaper}/>
+            {/*rename route with "white-paper" to "documentation"*/}
+            <Route exact path="/documentation" component={WhitePaper}/>
             <Route exact path="/partners" component={Partners}/>
             <Route exact path="/contribute" component={Contribute}/>
             <Route exact path="/contribute/:keyword" component={Contribute}/>
