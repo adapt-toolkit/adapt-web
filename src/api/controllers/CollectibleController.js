@@ -10,6 +10,7 @@ const query = {
 };
 
 const url = `${process.env.UNIQX_API_PREFIX}/orders`;
+console.log('url: ', url);
 const callApi = (url, query) => superagent.get(url)
     .query(query)
     .then((resp) => resp.statusCode !== 200 ? Promise.reject(resp.statusCode) : resp.body);
