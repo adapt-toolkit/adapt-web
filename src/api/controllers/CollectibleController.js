@@ -41,6 +41,7 @@ module.exports = {
                     callApi(`${url}/bymarket`, query),
                     callApi(`${url}/count`, {market: 'CUSTOM_ADAPT'})
                 ]).then(([dataMarket, dataCount]) => {
+                    console.log(dataMarket, dataCount);
                     collectiblesPlain = collectiblesPlain.map((item) => {
                         if (item.reserves) {
                             item.currentReserves = item.reserves.length;
