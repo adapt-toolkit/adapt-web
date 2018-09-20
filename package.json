@@ -21,7 +21,8 @@
         "SMTP_PORT": 465,
         "SMTP_LOGIN": "",
         "SMTP_PASSWORD": "",
-        "UNIQX_ENVIRONMENT_PREFIX": "https://staging.uniqx.io"
+        "UNIQX_PREFIX": "https://develop.uniqx.io",
+        "UNIQX_API_PREFIX": "https://develop-api.uniqx.io"
       }
     },
     "start-prod": {
@@ -35,7 +36,8 @@
         "SMTP_PORT": 465,
         "SMTP_LOGIN": "",
         "SMTP_PASSWORD": "",
-        "UNIQX_ENVIRONMENT_PREFIX": "https://staging.uniqx.io"
+        "UNIQX_PREFIX": "https://staging.uniqx.io",
+        "UNIQX_API_PREFIX": "https://develop-api.uniqx.io"
       }
     },
     "production": {
@@ -49,7 +51,8 @@
         "SMTP_PORT": 465,
         "SMTP_LOGIN": "",
         "SMTP_PASSWORD": "",
-        "UNIQX_ENVIRONMENT_PREFIX": "https://staging.uniqx.io"
+        "UNIQX_PREFIX": "https://staging.uniqx.io",
+        "UNIQX_API_PREFIX": "https://develop-api.uniqx.io"
       }
     }
   },
@@ -62,6 +65,7 @@
     "ejs": "^2.5.8",
     "express": "^4.16.3",
     "file-loader": "^1.1.11",
+    "http-proxy": "^1.17.0",
     "mongodb": "^3.0.6",
     "mongoose": "^5.0.15",
     "nodemailer": "^4.6.4",
