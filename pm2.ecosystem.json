@@ -12,8 +12,8 @@
       "SMTP_PORT": 465,
       "SMTP_LOGIN": "",
       "SMTP_PASSWORD": "",
-      "UNIQX_PREFIX": "https://staging.uniqx.io",
-      "UNIQX_API_PREFIX": "https://develop.uniqx.io"
+      "UNIQX_PREFIX": "https://develop.uniqx.io",
+      "UNIQX_API_PREFIX": "https://develop-api.uniqx.io"
     },
     "env_production" : {
       "NODE_ENV": "production",
@@ -24,8 +24,8 @@
       "SMTP_PORT": 465,
       "SMTP_LOGIN": "",
       "SMTP_PASSWORD": "",
-      "UNIQX_PREFIX": "https://staging.uniqx.io",
-      "UNIQX_API_PREFIX": "https://develop.uniqx.io"
+      "UNIQX_PREFIX": "https://develop.uniqx.io",
+      "UNIQX_API_PREFIX": "https://develop-api.uniqx.io"
     }
   }]
 }
