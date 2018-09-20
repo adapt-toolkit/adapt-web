@@ -58,7 +58,8 @@ module.exports = {
         }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production'),
-            'UNIQX_ENVIRONMENT_PREFIX': JSON.stringify(process.env.UNIQX_ENVIRONMENT_PREFIX)
+            'UNIQX_PREFIX': JSON.stringify(process.env.UNIQX_PREFIX),
+            'UNIQX_API_PREFIX': JSON.stringify(process.env.UNIQX_API_PREFIX)
         }),
         new CleanWebpackPlugin(['dist'])
     ]
