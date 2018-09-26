@@ -1,0 +1,1 @@
+module.exports = (fileName) => fileName.lastIndexOf('.') !== - 1 ? fileName.substring(0, fileName.lastIndexOf('.')) : fileName;

@@ -152,13 +152,12 @@ class Contribute extends Component {
       .then(function(res) {
         if ( res.statusCode === 200 ) {
           updateState({ collectibles: res.body });
-        };
+        }
         // res.body, res.headers, res.status
-        })
-      .catch(function(err) {
+        }).catch(function(err) {
         // err.message, err.response
       });
-  }
+  };
 
   openPopup = (ev, id, hashsum, ext, reserveTotal) => {
     ev.preventDefault();
@@ -314,14 +313,14 @@ class Contribute extends Component {
                   <div>
                     <div className={styles.title}>{currElem.description}</div>
                     <div className={styles.countWrap}>
-                      <div className={styles.count}>
+                        { currElem.uniqxSync && <div className={styles.count}>
                         <b>{currElem.amount - (currElem.currentReserves || 0)}</b> of <b>{currElem.amount}</b> copies available<br/>
                         <b>{currElem.currentReserves || 0}</b> reserved
-                      </div>
+                      </div> }
                     </div>
                     <div className={styles.priceWrap}>
                       {
-                        currElem.unsaleable ?
+                        currElem.unsaleable || !currElem.uniqxSync ?
                           <div className={styles.price}>This item cannot be sold or reserved.</div>
                         :
                           (currElem.currentReserves !== currElem.amount
@@ -339,11 +338,11 @@ class Contribute extends Component {
                     {/*}*/}
 
                     {
-                      currElem.currentReserves !== currElem.amount && !currElem.unsaleable
+                      currElem.uniqxSync && currElem.currentReserves !== currElem.amount && !currElem.unsaleable && currElem.recordId
                         ? <a
                               className={classNames(styles.button, styles.purchaseBtn)}
                               target="_blank"
-                              href={`${UNIQX_ENVIRONMENT_PREFIX}/details/${currElem.hashsum}`}
+                              href={`${UNIQX_PREFIX}/details/${currElem.recordId}`}
                           >Donate</a>
                         : ""
                     }
@@ -403,7 +402,7 @@ categories.map(value => {
               </div>
               <header className={styles.categoriesHeader}>
                   <span className={styles.categoriesTitle}>Choose the series below</span>
-                  <a className={styles.viewMyCollection} target="_blank" href={`${UNIQX_ENVIRONMENT_PREFIX}/collection`}>view My collection</a>
+                  <a className={styles.viewMyCollection} target="_blank" href={`${UNIQX_PREFIX}/collection`}>VIEW MY COLLECTION & RESERVATIONS</a>
               </header>
               <div className={styles.categories}>
                 {
@@ -419,7 +418,7 @@ categories.map(value => {
                 }
               </div>
 
-              <a className={styles.showMore} target="_blank" href={`${UNIQX_ENVIRONMENT_PREFIX}`}>Go To Adapt Market</a>
+              <a className={styles.showMore} target="_blank" href={`${UNIQX_PREFIX}/market/AdaptThankYou`}>Go To Adapt Market</a>
 
               <div className={styles.description} dangerouslySetInnerHTML={{ __html: this.currentCategoryItem().description }} />
               {/* <div className={classNames(styles.button, styles.myArtBtn)}>My Art</div> */}
