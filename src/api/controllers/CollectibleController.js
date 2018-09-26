@@ -1,23 +1,13 @@
 const Sequelize = require('sequelize');
-const superagent = require('superagent');
 const {collectible, reserve} = require('../models/index');
+const callUniqxApi = require('../utils/callUniqxApi');
+const getFileName = require('../utils/getFileName');
 
 collectible.hasMany(reserve, {foreignKey: 'collectible_id', sourceKey: 'id'});
 
-const query = {
-    market: 'CUSTOM_ADAPT',
-    status: 'LISTED'
-};
-
-const url = `${process.env.UNIQX_API_PREFIX}/orders`;
-console.log('url: ', url);
-const callApi = (url, query) => superagent.get(url)
-    .query(query)
-    .then((resp) => resp.statusCode !== 200 ? Promise.reject(resp.statusCode) : resp.body);
-
 module.exports = {
-    showCollectibles: (req, res) => {
-        const {category_id} = req.query;
+  showCollectibles: (req, res) => {
+    const { category_id } = req.query;
 
         // CAUTION: category_id SQL injection vulnerability?
         // Check Sequelize
@@ -37,31 +27,43 @@ module.exports = {
         })
             .then(collectibleInstances => {
                 let collectiblesPlain = JSON.parse(JSON.stringify(collectibleInstances));
+                const requests = collectiblesPlain.map((item, index) => {
+                    return item.json_file ? callUniqxApi('/orders/bymarket', {
+                        uri: getFileName(item.json_file),
+                        status: 'LISTED',
+                        skip: 0,
+                        limit: 1
+                    }).then(([data]) => data)
+                        .catch(e => {
+                        console.log('error: ', e);
+                        return null;
+                    }) : Promise.resolve(null);
+                });
 
                 return Promise.all([
-                    callApi(`${url}/bymarket`, query),
-                    callApi(`${url}/count`, {market: 'CUSTOM_ADAPT'})
+                    // callUniqxApi('/orders/bymarket'),
+                    Promise.all(requests),
+                    callUniqxApi('/orders/count'),
                 ]).then(([dataMarket, dataCount]) => {
-                    console.log(dataMarket, dataCount);
-                    collectiblesPlain = collectiblesPlain.map((item) => {
+                    dataMarket = dataMarket.filter(item => !!item);
+
+                    collectiblesPlain = collectiblesPlain.map((item, index) => {
                         if (item.reserves) {
-                            item.currentReserves = item.reserves.length;
                             delete item.reserves;
                         }
 
-                        if (!item.json_file) {
-                            return item;
-                        }
-
-                        const hash = item.json_file.substring(0, item.json_file.indexOf('.'));
-                        const count = dataCount.find(item => item.uri === hash);
-                        const record = dataMarket.find(item => item.token.uri === hash);
+                        const uri = getFileName(item.json_file);
+                        const count = dataCount.find(item => item.uri === uri);
+                        const record = dataMarket.find(item => item.token.uri === uri);
 
                         if (!count || !record) {
+                            item.uniqxSync = false;
                             return item;
                         }
 
-                        item.currentReserves = count.LISTED;
+                        item.uniqxSync = true;
+                        item.currentReserves = count.RESERVED || 0;
+                        item.amount = count.TOTAL || 0;
                         item.recordId = record.token.id;
 
                         return item;

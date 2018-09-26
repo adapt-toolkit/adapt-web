@@ -154,7 +154,8 @@ class Contribute extends Component {
           updateState({ collectibles: res.body });
         }
         // res.body, res.headers, res.status
-        }).catch(function(err) {
+        })
+      .catch(function(err) {
         // err.message, err.response
       });
   };
@@ -313,14 +314,14 @@ class Contribute extends Component {
                   <div>
                     <div className={styles.title}>{currElem.description}</div>
                     <div className={styles.countWrap}>
-                      <div className={styles.count}>
+                        { currElem.uniqxSync && <div className={styles.count}>
                         <b>{currElem.amount - (currElem.currentReserves || 0)}</b> of <b>{currElem.amount}</b> copies available<br/>
                         <b>{currElem.currentReserves || 0}</b> reserved
-                      </div>
+                      </div> }
                     </div>
                     <div className={styles.priceWrap}>
                       {
-                        currElem.unsaleable ?
+                        currElem.unsaleable || !currElem.uniqxSync ?
                           <div className={styles.price}>This item cannot be sold or reserved.</div>
                         :
                           (currElem.currentReserves !== currElem.amount
@@ -338,7 +339,7 @@ class Contribute extends Component {
                     {/*}*/}
 
                     {
-                      currElem.currentReserves !== currElem.amount && !currElem.unsaleable && currElem.recordId
+                      currElem.uniqxSync && currElem.currentReserves !== currElem.amount && !currElem.unsaleable && currElem.recordId
                         ? <a
                               className={classNames(styles.button, styles.purchaseBtn)}
                               target="_blank"
