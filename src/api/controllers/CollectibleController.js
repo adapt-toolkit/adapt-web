@@ -28,6 +28,7 @@ module.exports = {
             .then(collectibleInstances => {
                 let collectiblesPlain = JSON.parse(JSON.stringify(collectibleInstances));
                 const requests = collectiblesPlain.map((item, index) => {
+
                     return item.json_file ? callUniqxApi('/orders/bymarket', {
                         uri: getFileName(item.json_file),
                         status: 'LISTED',
@@ -52,7 +53,7 @@ module.exports = {
                             delete item.reserves;
                         }
 
-                        const uri = getFileName(item.json_file);
+                        const uri = item.json_file && getFileName(item.json_file);
                         const count = dataCount.find(item => item.uri === uri);
                         const record = dataMarket.find(item => item.token.uri === uri);
 
