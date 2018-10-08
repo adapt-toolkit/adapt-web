@@ -29,7 +29,7 @@ module.exports = {
                 let collectiblesPlain = JSON.parse(JSON.stringify(collectibleInstances));
                 const requests = collectiblesPlain.map((item, index) => {
 
-                    return item.json_file ? callUniqxApi('/orders/bymarket', {
+                    return item.json_file ? callUniqxApi('/orders/by_market', {
                         uri: getFileName(item.json_file),
                         status: 'LISTED',
                         skip: 0,
@@ -42,7 +42,7 @@ module.exports = {
                 });
 
                 return Promise.all([
-                    // callUniqxApi('/orders/bymarket'),
+                    // callUniqxApi('/orders/by_market'),
                     Promise.all(requests),
                     callUniqxApi('/orders/count'),
                 ]).then(([dataMarket, dataCount]) => {
