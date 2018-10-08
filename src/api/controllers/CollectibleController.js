@@ -65,7 +65,7 @@ module.exports = {
                         item.uniqxSync = true;
                         item.currentReserves = count.RESERVED || 0;
                         item.amount = count.TOTAL || 0;
-                        item.recordId = record.token.id;
+                        item.recordId = record.token.tokenId;
 
                         return item;
                     });
