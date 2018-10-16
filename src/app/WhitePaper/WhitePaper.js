@@ -57,22 +57,22 @@ export default class WhitePaper extends Component {
                         >Download</button>
                     </div>
                 </section>
-                <section>
-                    <div className={styles.colLeft}>
-                        <img
-                            onClick={() => window.open('https://drive.google.com/file/d/1F94zj_DlYuOmMOq8mQpT4SiWudEVzeAq/view?usp=sharing', '_blank')}
-                            className={styles.shadow}
-                            src="/images/adoption-strategy.png"
-                        />
-                    </div>
-                    <div className={styles.colRight}>
-                        <h2><b>Ecosystem Strategy</b></h2>
-                        <button
-                            className={styles.button}
-                            onClick={() => window.open('https://drive.google.com/file/d/1F94zj_DlYuOmMOq8mQpT4SiWudEVzeAq/view?usp=sharing', '_blank')}
-                        >Download</button>
-                    </div>
-                </section>
+                {/*<section>*/}
+                    {/*<div className={styles.colLeft}>*/}
+                        {/*<img*/}
+                            {/*onClick={() => window.open('https://drive.google.com/file/d/1F94zj_DlYuOmMOq8mQpT4SiWudEVzeAq/view?usp=sharing', '_blank')}*/}
+                            {/*className={styles.shadow}*/}
+                            {/*src="/images/adoption-strategy.png"*/}
+                        {/*/>*/}
+                    {/*</div>*/}
+                    {/*<div className={styles.colRight}>*/}
+                        {/*<h2><b>Ecosystem Strategy</b></h2>*/}
+                        {/*<button*/}
+                            {/*className={styles.button}*/}
+                            {/*onClick={() => window.open('https://drive.google.com/file/d/1F94zj_DlYuOmMOq8mQpT4SiWudEVzeAq/view?usp=sharing', '_blank')}*/}
+                        {/*>Download</button>*/}
+                    {/*</div>*/}
+                {/*</section>*/}
                 <section>
                     <div className={styles.colLeft}>
                         <img
