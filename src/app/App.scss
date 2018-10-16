@@ -25,7 +25,7 @@ svg{
   }
 }
 
-input,
+input:not([type='checkbox']),
 textarea{
   -webkit-appearance: none;
 }

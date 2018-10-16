@@ -12,6 +12,7 @@ import Confirm from './Confirm/Confirm';
 import Contacts from './Contacts/Contacts';
 import Terms from './Terms/Terms';
 import Policy from './Policy/Policy';
+import WhitePaper from './WhitePaper/WhitePaper';
 
 class App extends Component {
   constructor(props) {
@@ -28,6 +29,8 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Main}/>
             <Route exact path="/team" component={Team}/>
+            {/*rename route with "white-paper" to "documentation"*/}
+            <Route exact path="/documentation" component={WhitePaper}/>
             <Route exact path="/partners" component={Partners}/>
             <Route exact path="/contribute" component={Contribute}/>
             <Route exact path="/contribute/:keyword" component={Contribute}/>

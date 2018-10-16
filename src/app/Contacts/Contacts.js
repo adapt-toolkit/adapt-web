@@ -57,9 +57,9 @@ export default class Contacts extends Component {
       <div className={styles.container}>
         <form onSubmit={ev => this.handleSubscribe(ev)}>
           <div>
-            Subscribe to updates on project status.
+            Subscribe to updates on project status
           </div>
-          <input required type="email" placeholder="Enter your email" onChange={ev => this.setInputValue(ev)} />
+          <input required type="email" placeholder="Email" onChange={ev => this.setInputValue(ev)} />
           <button
             className={styles.button}
           >Subscribe</button>
@@ -70,7 +70,7 @@ export default class Contacts extends Component {
           <span>OR</span>
         </div>
         <div className={styles.socialLinks}>
-          Seek us on<br/><br/>
+          Find us on<br/><br/>
           <a className={styles.twitter} href={"https://twitter.com/adaptkit"}></a>
           <a className={styles.telegram} href={"https://t.me/joinchat/GSMa9w954pYtbs6v-e8Oww"}></a>
         </div>

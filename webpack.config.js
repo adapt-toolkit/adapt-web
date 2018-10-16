@@ -47,6 +47,10 @@ module.exports = {
             filename: "[name].css",
             chunkFilename: "[id].css"
         }),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('development'),
+            'UNIQX_ENVIRONMENT_PREFIX': JSON.stringify(process.env.UNIQX_ENVIRONMENT_PREFIX)
+        }),
         new webpack.HotModuleReplacementPlugin()
     ]
 }

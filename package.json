@@ -16,11 +16,12 @@
         "NODE_ENV": "development",
         "PROTOCOL": "http",
         "HOST": "localhost",
-        "PORT": 3000,
+        "PORT": 8000,
         "SMTP": "smtp.gmail.com",
         "SMTP_PORT": 465,
         "SMTP_LOGIN": "",
-        "SMTP_PASSWORD": ""
+        "SMTP_PASSWORD": "",
+        "UNIQX_ENVIRONMENT_PREFIX": "https://staging.uniqx.io"
       }
     },
     "start-prod": {
@@ -29,11 +30,12 @@
         "NODE_ENV": "production",
         "PROTOCOL": "http",
         "HOST": "localhost",
-        "PORT": 3000,
+        "PORT": 8000,
         "SMTP": "smtp.gmail.com",
         "SMTP_PORT": 465,
         "SMTP_LOGIN": "",
-        "SMTP_PASSWORD": ""
+        "SMTP_PASSWORD": "",
+        "UNIQX_ENVIRONMENT_PREFIX": "https://staging.uniqx.io"
       }
     },
     "production": {
@@ -46,7 +48,8 @@
         "SMTP": "smtp.gmail.com",
         "SMTP_PORT": 465,
         "SMTP_LOGIN": "",
-        "SMTP_PASSWORD": ""
+        "SMTP_PASSWORD": "",
+        "UNIQX_ENVIRONMENT_PREFIX": "https://staging.uniqx.io"
       }
     }
   },
