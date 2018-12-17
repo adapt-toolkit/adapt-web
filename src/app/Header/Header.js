@@ -136,7 +136,7 @@ class Header extends Component {
           <NavLink to="/documentation" activeClassName={styles.activeLink} style={{animationDelay: "0.5s"}}>Documentation</NavLink>
           <NavLink to="/team" activeClassName={styles.activeLink} style={{animationDelay: "0.5s"}}>Team</NavLink>
           <NavLink to="/partners" activeClassName={styles.activeLink} style={{animationDelay: "0.6s"}}>Partners</NavLink>
-          <NavLink to="/contribute" activeClassName={styles.activeLink} style={{animationDelay: "0.7s"}}>Contribute</NavLink>
+          {/*<NavLink to="/contribute" activeClassName={styles.activeLink} style={{animationDelay: "0.7s"}}>Contribute</NavLink>*/}
           <NavLink to="/contact" activeClassName={styles.activeLink} style={{animationDelay: "0.8s"}}>Contact</NavLink>
         </div>
         <div
