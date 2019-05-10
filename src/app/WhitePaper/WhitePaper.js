@@ -50,22 +50,22 @@ export default class WhitePaper extends Component {
                 {/*</div>*/}
                 {/*</section>*/}
 
-                <section>
-                    <div className={styles.colLeft}>
-                        <img
-                            className={styles.shadow} src="/images/mufl1p.png"
-                            onClick={() => window.open('https://drive.google.com/file/d/1QjsU5qs5C9d8cZU90rtW8OvsZ60MiNm0/view?usp=sharing', '_blank')}
-                        />
-                    </div>
-                    <div className={styles.colRight}>
-                        <h2><b>MUFL</b> Programming Primer</h2>
-                        <button
-                            className={styles.button}
-                            onClick={() => window.open('https://drive.google.com/file/d/1QjsU5qs5C9d8cZU90rtW8OvsZ60MiNm0/view?usp=sharing', '_blank')}
-                        >Download
-                        </button>
-                    </div>
-                </section>
+                {/*<section>*/}
+                    {/*<div className={styles.colLeft}>*/}
+                        {/*<img*/}
+                            {/*className={styles.shadow} src="/images/mufl1p.png"*/}
+                            {/*onClick={() => window.open('https://drive.google.com/file/d/1QjsU5qs5C9d8cZU90rtW8OvsZ60MiNm0/view?usp=sharing', '_blank')}*/}
+                        {/*/>*/}
+                    {/*</div>*/}
+                    {/*<div className={styles.colRight}>*/}
+                        {/*<h2><b>MUFL</b> Programming Primer</h2>*/}
+                        {/*<button*/}
+                            {/*className={styles.button}*/}
+                            {/*onClick={() => window.open('https://drive.google.com/file/d/1QjsU5qs5C9d8cZU90rtW8OvsZ60MiNm0/view?usp=sharing', '_blank')}*/}
+                        {/*>Download*/}
+                        {/*</button>*/}
+                    {/*</div>*/}
+                {/*</section>*/}
 
                 {/*<section>*/}
                 {/*<div className={styles.colLeft}>*/}
